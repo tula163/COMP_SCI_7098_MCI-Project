@@ -1,16 +1,19 @@
 
 import './App.css';
-
+import { Rate } from 'antd';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      {/* <header className="App-header">
        
         <p>
-        Recommendation System
+         Recommendation System
         </p>
 
-      </header>
+        
+
+      </header> */}
+      <Rate disabled defaultValue={4}  className="rate"/>
     </div>
   );
 }
