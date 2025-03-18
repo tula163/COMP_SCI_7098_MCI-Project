@@ -1,3 +1,11 @@
 echo ".DS_Store" >> .gitignore
 git rm --cached .DS_Store
 git commit -m "Remove .DS_Store from repository"
+
+node_modules/
+dist/
+build/
+.env
+.DS_Store
+
+node_modules

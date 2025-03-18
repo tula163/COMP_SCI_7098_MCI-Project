@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "jsonserver": "^0.1.6"
+  },
+  "dependencies": {
+    "antd": "^5.24.4"
+  }
+}
