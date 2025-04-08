@@ -22,3 +22,6 @@ Jianing Dang	a1882117
 8. Codes management: Firstly, we should create a branch named after our name and push the codes on this branch. After testing on local devices, the codes will be merged into the main branch to continue future testing.
 9. Document sharing: use Microsoft 365 to share all the editable documents, such as slides, Word and Excel, which can help members monitor and check each other and facilitate cooperation.
 
+# Branch specification
+- Branch `main` is for distribution, merge only verified stable versions and all documents.
+- Branch `DEV` is for development, both front-end, back-end and model, just for coding.
