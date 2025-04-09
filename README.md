@@ -25,3 +25,6 @@ a1882117 `Jianing Dang`
 # Branch specification
 - Branch `main` is for distribution, merge only verified stable versions and all documents.
 - Branch `DEV` is for development, both front-end, back-end and model, just for coding.
+
+# Project taskboard
+There is a taskboard recording the tasks for our project, shown in `Project - HA1` <br>
