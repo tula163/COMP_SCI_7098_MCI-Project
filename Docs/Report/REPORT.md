@@ -16,4 +16,4 @@ In week 4, we mainly focus on the **pitch presentation** and the successful comp
 
 ## Week 6
 - In week 6, the supervisor help us find some problem in our data, so we update our dataset.
-- Start to implement our top 3 modl
+- Start to implement our top 3 modle
