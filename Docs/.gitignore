@@ -1,0 +1,7 @@
+# tmp cache
+*.bak
+*.tmp
+
+# automatic file
+_site/
+build/
