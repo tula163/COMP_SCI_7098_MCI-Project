@@ -1,4 +1,4 @@
-package com.example.demo.config; // ⬅ 注意这里包名要对应
+package com.example.backcode.config; // ⬅ 注意这里包名要对应
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

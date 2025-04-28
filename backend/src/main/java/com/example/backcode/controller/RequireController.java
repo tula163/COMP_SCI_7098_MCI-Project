@@ -22,7 +22,7 @@ public class RequireController {
 
     // 测试插入一条
     @PostMapping("/add")
-    public Requirements addUser(@RequestBody Requirements requirements) {
+    public Requirements addRequirement(@RequestBody Requirements requirements) {
         return requireService.addRequirement(requirements);
     }
 
