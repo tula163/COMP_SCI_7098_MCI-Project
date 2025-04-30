@@ -28,3 +28,20 @@ a1882117 `Jianing Dang`
 
 # Project taskboard
 There is a taskboard recording the tasks for our project, shown in `Project - HA1` <br>
+
+# Archetecture and Technology stack
+This project adopts a front-end and back-end separation architecture:
+
+## Frant-end
+- Framework: React (created using Create React App)
+- Package Manager: NPM
+- HTTP Client: Axios (used for communication with the Spring Boot backend APIs)
+- UI Library: Ant Design (antd)
+- Style management tool : Scss
+- State Management: Utilizes React’s built-in useState and useEffect hooks (Redux is not used)
+
+## Back-end
+- Framework: Spring Boot (lightweight Java web framework)
+- Build Tool: Maven (used for dependency and build management)
+- Database: MySQL (stores agent data and user requests)
+- Language: Java
