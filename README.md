@@ -16,9 +16,9 @@ a1882117 `Jianing Dang`
 2. Minutes: stored in `docs/Minutes/~`
 3. Timesheets: stored in `docs/Timesheets/~`
 4. Output documents for each week, such as report slides, table images and prototypes: store in `docs/Report/~`, with a folder name with the week number.
-5. Data files: stored in `datafiles/~`, named with a specific title, for example, `Migrant requirements.csv`.
-6. Back-end codes: stored in `BackCode/~` after testing and merging on the main branch.
-7. Front-end codes: stored in `front-end/~` after testing and merging on the main branch.
+5. Models: model training data stored in `models/datafiles/~`, named with a specific title, for example, `Migrant requirements.csv`.
+6. Back-end codes: stored in `backend/~` after testing and merging on the main branch.
+7. Front-end codes: stored in `frontend/~` after testing and merging on the main branch.
 8. Codes management: Firstly, we should create a branch named after our name and push the codes on this branch. After testing on local devices, the codes will be merged into the main branch to continue future testing.
 9. Document sharing: use `Microsoft 365` to share all the editable documents, such as slides, Word and Excel, which can help members monitor and check each other and facilitate cooperation.
 
