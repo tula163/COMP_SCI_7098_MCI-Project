@@ -28,5 +28,6 @@ In week 4, we mainly focus on the **pitch presentation** and the successful comp
 
 ## Week 8
 - In week 8, we implement two model, which is two-tower and ncf.
+- Milestone one report.
   
   
