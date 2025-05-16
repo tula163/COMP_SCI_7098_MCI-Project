@@ -1,12 +1,22 @@
 // 路由
-import Layout from "../pages/layout";
+import HomePage from "@/pages/Homepage";
 import { createBrowserRouter } from "react-router";
+import Question from "@/pages/Question";
+import ResultPage from "../pages/Result";
 
 
 const router = createBrowserRouter([
     {
       path: "/",
-      Component: Layout,
+      Component: HomePage,
+    },
+    {
+      path: "/question",
+      Component: Question,
+    },
+    {
+      path: "/result",
+      Component: ResultPage,
     }
   ]);
 

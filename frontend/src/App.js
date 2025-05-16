@@ -1,5 +1,5 @@
 
-import './App.scss';
+import './App.css';
 import { Rate } from 'antd';
 function App() {
   return (
