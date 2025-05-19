@@ -3,14 +3,14 @@
 FRONTEND_DIR="./Front-end"
 BACKEND_DIR="./Back-end"
 
-# 启动前端
-echo "🚀 启动前端中..."
+# run front-end
+echo "🚀 client running ..."
 cd "$FRONTEND_DIR" || exit
 npm install
-npm start &  # 如果没有 dev 脚本，改成 npm run start
+npm start &  
 cd ..
 
-# 启动后端
-echo "🚀 启动后端中..."
+# run back-end
+echo "🚀 server running..."
 cd "$BACKEND_DIR" || exit
 ./mvnw spring-boot:run
