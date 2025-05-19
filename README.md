@@ -11,6 +11,14 @@ a1883303 `Ziyan Zhao`	<br>
 a1880849 `Jianghao Jin`	<br>
 a1882117 `Jianing Dang`	
 
+# How to start the project ?
+1. git clone `https://github.cs.adelaide.edu.au/MCI-Project-2025/HA1.git`
+2. Install front-end dependency: 
+   - `cd Code`
+   - `npm install`
+   - `cd ..`
+3. ` bash ./start`
+   
 # Document organizaton
 1. Agendas: stored in `docs/Agendas/~`
 2. Minutes: stored in `docs/Minutes/~`
