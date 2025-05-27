@@ -1,30 +1,17 @@
 package com.example.backcode.service;
 
-
 import com.example.backcode.pojo.Requirements;
-import com.example.backcode.repository.ReqiureRepository;
+import com.example.backcode.repository.RequireRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class RequireService {
-    private final ReqiureRepository reqiureRepository;
-    public RequireService(ReqiureRepository reqiureRepository) {
-        this.reqiureRepository = reqiureRepository;
+
+    @Autowired
+    private RequireRepository requireRepository;
+
+    public Requirements saveRequirement(Requirements requirement) {
+        return requireRepository.save(requirement);
     }
-
-    public List<Requirements> getAllRequirements() {
-        return reqiureRepository.findAll();
-    }
-
-
-
-    public Requirements addRequirement(Requirements requirements) {
-        return reqiureRepository.save(requirements);
-    }
-
-
-
-
 }
