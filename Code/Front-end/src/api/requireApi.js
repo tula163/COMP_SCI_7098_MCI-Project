@@ -9,3 +9,9 @@ export function getAllRequirements() {
 export function addRequirement(data) {
   return axios.post('/requirements/add', data); 
 }
+
+
+// 提交问卷数据
+export function submitQuestions(data) {
+  return axios.post('/api/submit', data);
+}

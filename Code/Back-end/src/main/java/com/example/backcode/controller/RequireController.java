@@ -1,39 +1,21 @@
 package com.example.backcode.controller;
 
-//public class RequireController {
-//}
-
-
 import com.example.backcode.pojo.Requirements;
 import com.example.backcode.service.RequireService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/requirements")
+@RequestMapping("/api")
+@CrossOrigin // 前后端分离时允许跨域访问
 public class RequireController {
 
-    private final RequireService requireService;
+    @Autowired
+    private RequireService requireService;
 
-    public RequireController(RequireService requireService) {
-        this.requireService = requireService;
+    @PostMapping("/submit")
+    public String submitRequirement(@RequestBody Requirements requirements) {
+        requireService.saveRequirement(requirements);
+        return "Submitted successfully!";
     }
-
-    // 测试插入一条
-    @PostMapping("/add")
-    public Requirements addRequirement(@RequestBody Requirements requirements) {
-        return requireService.addRequirement(requirements);
-    }
-
-    // 查询所有
-    @GetMapping
-    public List<Requirements> getAllRequirements() {
-        return requireService.getAllRequirements();
-    }
-
-
-
-
 }
-
