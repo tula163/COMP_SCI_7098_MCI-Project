@@ -1,11 +1,23 @@
 import React from 'react';
 
+
+import { useContext } from "react";
+import { RecommendContext } from "@/context/RecommendContext";
+
+
+// import { useNavigate } from 'react-router-dom';
+
 const ResultPage = () => {
+  // const navigate = useNavigate();
+  const { recommendResult } = useContext(RecommendContext);
+
+  
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-purple-100 via-white to-pink-100">
       {/* Header  */}
       <header className="w-full px-8 py-4 flex justify-between items-center text-sm bg-white/50 backdrop-blur-sm ">
-        <div className="font-bold text-indigo-600">Logo</div>
+         <div className="font-bold text-indigo-600" >Logo</div>
       </header>
 
 
@@ -20,57 +32,31 @@ const ResultPage = () => {
         </p>
 
         <div className="flex flex-wrap justify-center gap-8 w-full max-w-6xl">
-          {/* Card 1 */}
-          <div className="bg-white rounded-xl shadow-lg p-6 w-80">
-            <h3 className="text-indigo-600 font-semibold text-sm">TOP 1</h3>
-            <p className="text-2xl font-bold mt-2">John  Patrick Illidge</p>
-          
-          
-            <ul className="text-sm text-gray-700 space-y-1 mb-4">
-              <li>✔ General visa advice</li>
-              <li>✔ Online booking available</li>
-              <li>✔ Multilingual support</li>
-              <li className="text-gray-400">✖ No tailored strategy</li>
-              <li className="text-gray-400">✖ Limited availability</li>
-              <li className="text-gray-400">✖ No priority responses</li>
-            </ul>
-            <button className="bg-indigo-600 text-white px-4 py-2 rounded w-full mb-4">Start your consultation</button>
-          </div>
+  {recommendResult.map((agent, index) => (
+    <div
+      key={index}
+      className="bg-white rounded-xl shadow-lg p-6 w-80"
+    >
+      <h3 className="text-indigo-600 font-semibold text-sm">
+        TOP {index + 1}
+      </h3>
+      <p className="text-2xl font-bold mt-2">{agent.Full_name}</p>
+      <p className="text-xl  mb-2 font-bold">{agent.MARN}</p>
+      <ul className="text-sm text-gray-700 space-y-1 mb-4">
+        <li>✔ General visa advice</li>
+        <li>✔ Online booking available</li>
+        <li>✔ Multilingual support</li>
+        <li className="text-gray-400">✖ No tailored strategy</li>
+        <li className="text-gray-400">✖ Limited availability</li>
+        <li className="text-gray-400">✖ No priority responses</li>
+      </ul>
+      <button className="bg-indigo-600 text-white px-4 py-2 rounded w-full mb-4">
+        Start your consultation
+      </button>
+    </div>
+  ))}
+</div>
 
-          {/* Card 2 */}
-          <div className="bg-white rounded-xl shadow-lg p-6 w-80">
-            <h3 className="text-indigo-600 font-semibold text-sm">TOP 2</h3>
-            <p className="text-2xl font-bold mt-2">Badri Aryal </p>
-           
-            
-            <ul className="text-sm text-gray-700 space-y-1  mb-4">
-            <li>✔ General visa advice</li>
-              <li>✔ Online booking available</li>
-              <li>✔ Multilingual support</li>
-              <li className="text-gray-400">✖ No tailored strategy</li>
-              <li className="text-gray-400">✖ Limited availability</li>
-              <li className="text-gray-400">✖ No priority responses</li>
-            </ul>
-            <button className="bg-indigo-600 text-white px-4 py-2 rounded w-full mb-4">Start your consultation</button>
-          </div>
-
-          {/* Card 3 */}
-          <div className="bg-white rounded-xl shadow-lg p-6 w-80">
-            <h3 className="text-indigo-600 font-semibold text-sm">TOP 3</h3>
-            <p className="text-2xl font-bold mt-2">Qi Wang </p>
-        
-         
-            <ul className="text-sm text-gray-700 space-y-1  mb-4">
-            <li>✔ General visa advice</li>
-              <li>✔ Online booking available</li>
-              <li>✔ Multilingual support</li>
-              <li className="text-gray-400">✖ No tailored strategy</li>
-              <li className="text-gray-400">✖ Limited availability</li>
-              <li className="text-gray-400">✖ No priority responses</li>
-            </ul>
-            <button className="bg-indigo-600 text-white px-4 py-2 rounded w-full mb-4">Start your consultation</button>
-          </div>
-        </div>
       </div>
 
       <div className="flex justify-center pb-8">

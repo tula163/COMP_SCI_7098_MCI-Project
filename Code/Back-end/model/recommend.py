@@ -26,7 +26,7 @@ if __name__ == "__main__":
         user_input = json.loads(sys.argv[1])
         model = load_recommendation_model()
         user_vector = preprocess_input(user_input)
-        embedding = model.predict(user_vector)
+        embedding = model.predict(user_vector,verbose=0)
 
         agent_df = pd.read_csv(os.path.join(os.path.dirname(__file__), "requirements_data_5.6.csv"))
 

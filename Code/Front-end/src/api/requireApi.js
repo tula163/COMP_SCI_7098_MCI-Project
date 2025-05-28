@@ -15,3 +15,10 @@ export function addRequirement(data) {
 export function submitQuestions(data) {
   return axios.post('/api/submit', data);
 }
+
+
+
+// 获得推荐
+export function getRecommend(data) {
+  return axios.post('/api/agent/recommend', data);
+}
