@@ -25,7 +25,7 @@ const questions = [
   },
   {
     question: 'What languages do you speak?',
-    optionList: [],
+    optionList: ['Chinese','English'],
     type: 'radio',
   },
   {
