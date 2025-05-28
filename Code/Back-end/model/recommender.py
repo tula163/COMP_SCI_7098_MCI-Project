@@ -21,7 +21,7 @@ def recommend_with_weighted_match(user_input_dict, top_k, agent_df, label_encode
         result.append({
             "Full_name": row.get("Full_name", ""),
             "MARN": row.get("MARN", ""),
-            "Matched Fields": [],
+            # "Matched Fields": [],
             "Match Score": 0.0
         })
     return result

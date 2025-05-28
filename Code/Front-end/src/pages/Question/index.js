@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Radio, Select, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import {submitQuestions} from "@/api/requireApi"
- 
+import { useContext } from "react";
+// import {submitQuestions} from "@/api/requireApi"
+import { RecommendContext } from "@/context/RecommendContext";
+import {getRecommend} from "@/api/requireApi"
 const { Option } = Select;
 
 const questions = [
@@ -24,7 +26,7 @@ const questions = [
   {
     question: 'What languages do you speak?',
     optionList: [],
-    type: 'input',
+    type: 'radio',
   },
   {
     question: 'What is your budget range?',
@@ -74,8 +76,11 @@ const questionKeyMap = {
 
 const QuestionPage = () => {
   const navigate = useNavigate();
+  // const [result, setResult] = useState([]);
+  const { setRecommendResult } = useContext(RecommendContext);
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState({});
+  const [loading, setLoading] = useState(false); 
 
   const handlePrev = () => {
     if (current > 0) setCurrent(current - 1);
@@ -87,7 +92,9 @@ const QuestionPage = () => {
 
 
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    setLoading(true); 
+
     const payload = {};
   
     questions.forEach((q, index) => {
@@ -98,16 +105,21 @@ const QuestionPage = () => {
       }
     });
   
-    console.log('Submitting payload:', payload);
-  
+
+
+    e.preventDefault();
     try {
-      const res = await submitQuestions(payload);
-      console.log('Server response:', res.data);
+      const res = await getRecommend(payload)
+      const result =  res.data
+      setRecommendResult(result.data);
       navigate('/result');
     } catch (err) {
-      console.error('Submit failed:', err);
-      // 可加 Toast 错误提示
+      alert("error");
+    } finally {
+      setLoading(false); 
     }
+  
+
   };
   
 
@@ -172,7 +184,10 @@ const QuestionPage = () => {
         <div className="font-bold text-indigo-600">Logo</div>
       </header>
 
+ 
+
       <div className='flex-1 flex items-center justify-center'>
+
         <div className="bg-white shadow-xl rounded-xl p-8 w-full max-w-2xl">
           <h2 className="text-xl font-semibold mb-6">{currentQuestion.question}</h2>
 
@@ -192,9 +207,13 @@ const QuestionPage = () => {
             {current === questions.length - 1 ? (
               <button
                 onClick={handleSubmit}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded"
+              
+                disabled={loading}
+                className={`bg-indigo-600 text-white px-6 py-2 rounded ${
+                  loading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
-                Submit
+                 {loading ? "Submitting..." : "Submit"}
               </button>
             ) : (
               <button
@@ -216,6 +235,8 @@ const QuestionPage = () => {
           ← Back
         </button>
       </div>
+
+
     </div>
   );
 };

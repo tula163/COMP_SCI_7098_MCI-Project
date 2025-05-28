@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
+import com.example.backcode.common.ApiResponse;
 import java.util.Map;
 
 @RestController
@@ -17,15 +17,8 @@ public class AgentController {
     private RecommendService recommendService;
 
     @PostMapping("/recommend")
-    public ResponseEntity<String> recommendAgent(@RequestBody Map<String, String> userInput) {
-        try {
-            // 调用推荐服务
-            String result = recommendService.recommendAgents(userInput);
-            return ResponseEntity.ok(result);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error: " + e.getMessage());
-        }
+    public ResponseEntity<ApiResponse<Object>> recommendAgent(@RequestBody Map<String, String> userInput) {
+        ApiResponse<Object> result = recommendService.recommendAgents(userInput);
+        return ResponseEntity.status(result.getCode() == 200 ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR).body(result);
     }
 }

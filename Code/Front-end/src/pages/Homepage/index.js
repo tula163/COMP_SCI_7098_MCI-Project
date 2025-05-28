@@ -11,7 +11,7 @@ export default function Homepage() {
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-purple-100 via-white to-pink-100">
       {/* Header */}
       <header className="w-full px-8 py-4 flex justify-between items-center text-sm bg-white/50 backdrop-blur-sm ">
-        <div className="font-bold text-indigo-600">Logo</div>
+        <div className="font-bold text-indigo-600" >Logo</div>
         <nav className="flex gap-6 text-gray-700">
           <a href="#">Product</a>
           <a href="#">Features</a>
