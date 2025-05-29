@@ -9,9 +9,16 @@ const { Option } = Select;
 
 const questions = [
   {
-    question: 'What is your preferred visa type?',
-    optionList: ['Student Visa', 'Working Holiday', 'PR Pathway'],
-    type: 'radio',
+    question: 'Please input the VISA type you want to apply?',
+    subtext: 'If you enter an incorrect VISA TYPE, you will be prompted to re-enter it.',
+    optionList: [
+    'Student Visa',
+    'Skilled Independent Visa (189)',
+    'Employer Sponsored Visa (186)',
+    'Temporary Graduate Visa (485)',
+    'Business Innovation Visa (188)',
+    ],
+    type: 'searchable-select',
   },
   {
     question: 'How many years of experience do you have?',
@@ -19,44 +26,57 @@ const questions = [
     type: 'radio',
   },
   {
-    question: 'What is your preferred booking method?',
-    optionList: ['Online', 'Phone', 'In-person'],
-    type: 'select',
+    question: 'Which of the following ways do you prefer to communicate with agent?',
+    optionList: ['Online', 'In-person', 'Both of them'],
+    type: 'radio',
+    layout: 'grid'
   },
   {
-    question: 'What languages do you speak?',
-    optionList: ['Chinese','English'],
+    question: 'How many years of experience would you prefer an agent with?',
+    optionList: ['0 ~ 10 years', '11 ~ 20 years', '21 ~ 30 years', 'More than 30 years'],
     type: 'radio',
   },
   {
-    question: 'What is your budget range?',
-    optionList: ['<$1000', '$1000 - $3000', '>$3000'],
+    question: 'Which language would you prefer the agent to be able to communicate with you in?',
+    optionList: ['Chinese','English', 'Spanish', 'Japanese', 'Franch', 'Germany', 'Urdu', 'Thai'],
+    type: 'searchable-select',
+  },
+  {
+    question: 'How much do you prefer to spend on immigration agent fees?',
+    optionList: ['0 ~ 100 AUD', '101 ~ 200 AUD', '201 ~ 500 AUD', 'More than 500 AUD'],
     type: 'radio',
   },
   {
-    question: 'What is your location preference?',
-    optionList: ['Sydney', 'Melbourne', 'Adelaide'],
-    type: 'select',
+    question: 'Which geographic location do you prefer to be in agent?',
+    optionList: [
+      'New South Wales (NSW)', 'Victoria (VIC)',
+      'Northern Territory (NT)', 'Tasmania (TAS)',
+      'Western Australia (WA)', 'Queensland (QLD)',
+      'South Australia (SA)', 'Australian Capital Territory (ACT)'
+    ],
+    type: 'radio',
+    layout: 'grid'
   },
   {
-    question: 'Do you prefer independent or registered agents?',
-    optionList: ['Independent', 'Registered'],
+    question: 'Which of the employment type of agents do you prefer?',
+    optionList: ['Independent', 'Organized'],
+    type: 'radio',
+    layout: 'grid'
+  },
+  {
+    question: 'The following is the success rate of the agent assisted visa application, which one do you prefer?',
+    optionList: ['Less than 30%','31% ~ 50%', '51% ~ 80%', 'More than 80%'],
     type: 'radio',
   },
   {
-    question: 'What is your success rate requirement?',
-    optionList: ['No preference', 'Above 80%', 'Above 90%'],
+    question: 'How long do you prefer to be responded to and processed by the agent?',
+    optionList: ['Immediately', '1 month', '2 ~ 3 month', '4 ~ 6 month'],
     type: 'radio',
   },
   {
-    question: 'What is your preferred availability timeframe?',
-    optionList: ['Morning', 'Afternoon', 'Evening'],
+    question: 'The following is the Google rate of agent got, which one do you prefer?',
+    optionList: ['Less than 3.0', '3.1 ~ 3.5', '3.6 ~ 3.9', '4.0 ~ 4.5', '4.6 ~ 5.0'],
     type: 'radio',
-  },
-  {
-    question: 'How important is the Google rating to you?',
-    optionList: ['Not Important', 'Somewhat Important', 'Very Important'],
-    type: 'select',
   },
 ];
 
@@ -138,7 +158,7 @@ const QuestionPage = () => {
             onChange={(e) => handleChange(e.target.value)}
             value={answers[current]}
           >
-            <div className="flex flex-col gap-8"> 
+            <div className={q.layout === 'grid' ? 'grid grid-cols-2 md:grid-cols-4 gap-4' : 'flex flex-col gap-8'}> 
               {q.optionList.map((option, index) => (
                 <Radio key={index} value={option}>
                   {option}
@@ -155,6 +175,26 @@ const QuestionPage = () => {
             placeholder="Select an option"
             onChange={(value) => handleChange(value)}
             value={answers[current]}
+          >
+            {q.optionList.map((option, index) => (
+              <Option key={index} value={option}>
+                {option}
+              </Option>
+            ))}
+          </Select>
+        );
+      case 'searchable-select':
+        return (
+          <Select
+            showSearch
+            style={{ width: '100%' }}
+            placeholder="Please input your ideal type"
+            optionFilterProp="children"
+            onChange={(value) => handleChange(value)}
+            value={answers[current]}
+            filterOption={(input, option) =>
+              option.children.toLowerCase().includes(input.toLowerCase())
+            }
           >
             {q.optionList.map((option, index) => (
               <Option key={index} value={option}>
