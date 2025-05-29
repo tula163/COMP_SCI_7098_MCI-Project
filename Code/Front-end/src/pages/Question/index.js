@@ -19,32 +19,32 @@ const questions = [
     'Business Innovation Visa (188)',
     ],
     type: 'searchable-select',
-  },
-  {
-    question: 'How many years of experience do you have?',
-    optionList: ['Less than 1 year', '1-3 years', 'More than 3 years'],
-    type: 'radio',
+    key:'Visa type'
   },
   {
     question: 'Which of the following ways do you prefer to communicate with agent?',
     optionList: ['Online', 'In-person', 'Both of them'],
     type: 'radio',
+    key:'Booking preference',
     layout: 'grid'
   },
   {
     question: 'How many years of experience would you prefer an agent with?',
     optionList: ['0 ~ 10 years', '11 ~ 20 years', '21 ~ 30 years', 'More than 30 years'],
     type: 'radio',
+    key:'Experience_years'
   },
   {
     question: 'Which language would you prefer the agent to be able to communicate with you in?',
     optionList: ['Chinese','English', 'Spanish', 'Japanese', 'Franch', 'Germany', 'Urdu', 'Thai'],
     type: 'searchable-select',
+    key:'Language'
   },
   {
     question: 'How much do you prefer to spend on immigration agent fees?',
     optionList: ['0 ~ 100 AUD', '101 ~ 200 AUD', '201 ~ 500 AUD', 'More than 500 AUD'],
     type: 'radio',
+    key:'Charge'
   },
   {
     question: 'Which geographic location do you prefer to be in agent?',
@@ -55,43 +55,37 @@ const questions = [
       'South Australia (SA)', 'Australian Capital Territory (ACT)'
     ],
     type: 'radio',
+    key:'Location',
     layout: 'grid'
   },
   {
     question: 'Which of the employment type of agents do you prefer?',
     optionList: ['Independent', 'Organized'],
     type: 'radio',
-    layout: 'grid'
+    layout: 'grid',
+    key:'Employment Type'
   },
   {
     question: 'The following is the success rate of the agent assisted visa application, which one do you prefer?',
     optionList: ['Less than 30%','31% ~ 50%', '51% ~ 80%', 'More than 80%'],
     type: 'radio',
+    key:'Success rate'
   },
   {
     question: 'How long do you prefer to be responded to and processed by the agent?',
     optionList: ['Immediately', '1 month', '2 ~ 3 month', '4 ~ 6 month'],
     type: 'radio',
+    key:'Availability'
   },
   {
     question: 'The following is the Google rate of agent got, which one do you prefer?',
     optionList: ['Less than 3.0', '3.1 ~ 3.5', '3.6 ~ 3.9', '4.0 ~ 4.5', '4.6 ~ 5.0'],
     type: 'radio',
+    key:'Google rating'
   },
 ];
 
-const questionKeyMap = {
-  'What is your preferred visa type?': 'Visa type',
-  'How many years of experience do you have?': 'Experience_years',
-  'What is your preferred booking method?': 'Booking preference',
-  'What languages do you speak?': 'Language',
-  'What is your budget range?': 'Charge',
-  'What is your location preference?': 'Location',
-  'Do you prefer independent or registered agents?': 'Employment Type',
-  'What is your success rate requirement?': 'Success rate',
-  'What is your preferred availability timeframe?': 'Availability',
-  'How important is the Google rating to you?': 'Google rating',
-};
+
 
 
 const QuestionPage = () => {
@@ -118,7 +112,7 @@ const QuestionPage = () => {
     const payload = {};
   
     questions.forEach((q, index) => {
-      const backendKey = questionKeyMap[q.question];
+      const backendKey = q.key;
       const answer = answers[index];
       if (backendKey && answer !== undefined) {
         payload[backendKey] = answer;
@@ -228,8 +222,8 @@ const QuestionPage = () => {
 
       <div className='flex-1 flex items-center justify-center'>
 
-        <div className="bg-white shadow-xl rounded-xl p-8 w-full max-w-2xl">
-          <h2 className="text-xl font-semibold mb-6">{currentQuestion.question}</h2>
+        <div className="bg-white shadow-xl rounded-xl p-8 w-full max-w-6xl">
+          <h2 className="text-3xl font-semibold mb-6 ">{currentQuestion.question}</h2>
 
           <div className="mb-6">{renderInput(currentQuestion)}</div>
 
