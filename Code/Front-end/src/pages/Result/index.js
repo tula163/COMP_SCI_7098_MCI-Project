@@ -24,10 +24,10 @@ const ResultPage = () => {
 
       {/* main */}
       <div className="flex-1 flex flex-col items-center justify-center px-4 py-10">
-        <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">
+        <h2 className="text-6xl font-bold text-center text-gray-900 mb-4">
         Top 3 Migration Agents Recommended by AI
         </h2>
-        <p className="text-center text-gray-600 mb-12 max-w-xl">
+        <p className="text-center text-gray-600 mb-12 max-w-xl text-3xl">
         Our AI-powered matching system has analyzed your preferences and selected the top three migration agents that best align with your needs. These recommendations are based on multiple weighted criteria — including visa expertise, service quality, availability, and customer satisfaction — to help you make an informed and confident choice.
         </p>
 
