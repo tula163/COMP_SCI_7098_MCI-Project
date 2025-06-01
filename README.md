@@ -12,11 +12,13 @@ a1880849 `Jianghao Jin`	<br>
 a1882117 `Jianing Dang`	
 
 # How to start the project ?
-1. git clone
+### 1. git clone
+
    ```bash
    git clone https://github.cs.adelaide.edu.au/MCI-Project-2025/HA1.git
    ```
-2. Auto Install front-end and back-end dependency and run together with script: 
+### 2. Auto Install front-end and back-end dependency and run together with script: 
+
    ```bash
    cd Code
    bash ./start
