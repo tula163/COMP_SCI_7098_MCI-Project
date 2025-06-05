@@ -8,6 +8,7 @@ Django==5.2.2
 django-cors-headers==4.7.0
 django-filter==25.1
 django-import-export==4.3.7
+django-simpleui==2025.5.262
 djangorestframework==3.16.0
 flatbuffers==25.2.10
 gast==0.6.0

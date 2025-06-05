@@ -1,69 +1,79 @@
 import numpy as np
-# from tensorflow.keras.models import load_model
 import tensorflow as tf
 from keras.models import load_model
 from sklearn.metrics.pairwise import cosine_similarity
 from .models import Agent
 from .custom_layers import L2Normalization
 
-
 # 加载模型和代理人向量
-# model = load_model("model/towers1111_model.keras")
 model = load_model("model/towers1111_model.keras", custom_objects={"L2Normalization": L2Normalization})
 agent_vectors = np.load("model/agent_vectors.npy")
 
-# 默认字段及权重组合（feature_weights_1）
+# 所有特征字段（固定顺序）
 FEATURES = [
     "Language", "Google_rating", "Success_rate", "Charge",
     "Visa_type", "Experience_years", "Booking_preference",
     "Location", "Availability", "Employment_type"
 ]
-FEATURE_WEIGHTS = {
-    "Language": 0.25,
-    "Google_rating": 0.20,
-    "Success_rate": 0.15,
-    "Charge": 0.10,
-    "Visa_type": 0.10,
-    "Experience_years": 0.05,
-    "Booking_preference": 0.05,
-    "Location": 0.03,
-    "Availability": 0.03,
-    "Employment_type": 0.04
-}
 
-# 字符串字段编码为 one-hot/embedding 的预处理 placeholder（可自行替换）
-def preprocess_user_input(input_dict):
+# ✅ 动态权重生成
+def get_dynamic_weights(user_input: dict) -> dict:
+    filled_fields = [f for f in FEATURES if user_input.get(f) not in [None, ""]]
+    total = len(filled_fields)
+    if total == 0:
+        return {f: 0.0 for f in FEATURES}
+    weight_per_field = 1.0 / total
+    return {f: (weight_per_field if f in filled_fields else 0.0) for f in FEATURES}
+
+# ✅ 特征预处理
+def preprocess_user_input(input_dict: dict, weights: dict):
     feature_vector = []
     for field in FEATURES:
         value = input_dict.get(field)
-        # 示例：空值填0；字符串映射为哈希编码（简化示意）
+        raw_value = 0.0
         if value is None or value == "":
-            feature_vector.append(0.0)
+            raw_value = 0.0
         elif isinstance(value, (int, float)):
-            feature_vector.append(float(value))
+            raw_value = float(value)
         else:
-            feature_vector.append(float(abs(hash(value)) % 1000) / 1000.0)
+            raw_value = float(abs(hash(value)) % 1000) / 1000.0
+        weighted_value = raw_value * weights[field]
+        feature_vector.append(weighted_value)
     return np.array([feature_vector])
 
-def predict_agent(user_input: dict, top_k: int = 3):
-    # 1. 预处理用户输入 → 转换为向量
-    user_vector = preprocess_user_input(user_input)
-    user_embedding = model.predict(user_vector)
+def is_match(user_input: dict, agent: Agent) -> bool:
+    exp_range = user_input.get("Experience_years", "")
+    try:
+        if exp_range == "0 ~ 10 years":
+            return 0 <= agent.experience_years <= 10
+        elif exp_range == "11 ~ 20 years":
+            return 11 <= agent.experience_years <= 20
+        elif exp_range == "21 ~ 30 years":
+            return 21 <= agent.experience_years <= 30
+        elif exp_range == "More than 30 years":
+            return agent.experience_years > 30
+    except Exception:
+        return True
+    return True  # 默认通过
 
-    # 2. 相似度排序
+
+# ✅ 推理主函数
+def predict_agent(user_input: dict, top_k: int = 3):
+    weights = get_dynamic_weights(user_input)
+    user_vector = preprocess_user_input(user_input, weights)
+    user_embedding = model.predict(user_vector)
     similarities = cosine_similarity(user_embedding, agent_vectors)[0]
-    top_indices = similarities.argsort()[-top_k:][::-1]
+    top_indices = similarities.argsort()[::-1]
 
     results = []
-
     for idx in top_indices:
-        score = float(similarities[idx])
-
         try:
             agent = Agent.objects.get(id=idx + 1)
 
+            if not is_match(user_input, agent):  # ✅ 增加过滤逻辑
+                continue
 
-            agent_data = {
+            results.append({
                 "marn": agent.marn,
                 "funame": agent.full_name,
                 "location": agent.location,
@@ -77,10 +87,11 @@ def predict_agent(user_input: dict, top_k: int = 3):
                 "google_rating": agent.google_rating,
                 "availability": agent.availability,
                 "website": agent.website,
-                "score": round(score, 4), 
-            }
+                "score": round(float(similarities[idx]), 4),
+            })
 
-            results.append(agent_data)
+            if len(results) == top_k:
+                break
 
         except Agent.DoesNotExist:
             continue

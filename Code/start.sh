@@ -12,6 +12,9 @@ if [ ! -d ".venv" ]; then
   python3 -m venv .venv
 fi
 
+# ✅ 安装后端依赖
+pip install -r requirements.txt
+
 echo "✅ 激活 Python 虚拟环境..."
 source .venv/bin/activate
 
