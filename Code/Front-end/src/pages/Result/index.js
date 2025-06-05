@@ -40,8 +40,8 @@ const ResultPage = () => {
       <h3 className="text-indigo-600 font-semibold text-sm">
         TOP {index + 1}
       </h3>
-      <p className="text-2xl font-bold mt-2">{agent.Full_name}</p>
-      <p className="text-xl  mb-2 font-bold">{agent.MARN}</p>
+      <p className="text-2xl font-bold mt-2">{agent.funame}</p>
+      <p className="text-xl  mb-2 font-bold">{agent.marn}</p>
       <ul className="text-sm text-gray-700 space-y-1 mb-4">
         <li>✔ General visa advice</li>
         <li>✔ Online booking available</li>
