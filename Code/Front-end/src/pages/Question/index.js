@@ -5,7 +5,13 @@ import { useContext } from "react";
 // import {submitQuestions} from "@/api/requireApi"
 import { RecommendContext } from "@/context/RecommendContext";
 import {getRecommend} from "@/api/requireApi"
+import { useSnackbarQueue } from '@/store/useSnackbarQueue';
+import axios from "axios";
+
+
+
 const { Option } = Select;
+
 
 const questions = [
   {
@@ -95,6 +101,7 @@ const QuestionPage = () => {
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState({});
   const [loading, setLoading] = useState(false); 
+  const { showMessage } = useSnackbarQueue();
 
   const handlePrev = () => {
     if (current > 0) setCurrent(current - 1);
@@ -123,12 +130,17 @@ const QuestionPage = () => {
 
     e.preventDefault();
     try {
-      const res = await getRecommend(payload)
-      const result =  res.data
-      setRecommendResult(result.data);
+      const result = await getRecommend(payload);  
+      showMessage('success', 'Success!');
+      setRecommendResult(result);
       navigate('/result');
+      
     } catch (err) {
-      alert("error");
+      let message = "Unexpected error occurred";
+      if (axios.isAxiosError(err)) {
+        message = err.response?.data?.message || err.message || message;
+      }
+      showMessage('error', message);
     } finally {
       setLoading(false); 
     }
