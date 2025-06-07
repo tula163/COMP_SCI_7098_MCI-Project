@@ -32,19 +32,19 @@ class RecommendationRecordAdmin(admin.ModelAdmin):
         from django.utils.html import format_html
 
         try:
-            # 若 result 是 list 不是字符串，先转换
+            # If the result is a list rather than a string, convert it first
             data = obj.result
-            if isinstance(data, list):  # 如果是 list，就不用 json.loads
+            if isinstance(data, list):  # If it is a list, json.loads is not used
                 formatted_json = json.dumps(data, indent=2, ensure_ascii=False)
             elif isinstance(data, str):
                 parsed = json.loads(data)
                 formatted_json = json.dumps(parsed, indent=2, ensure_ascii=False)
             else:
-                return "⚠️ 无法解析 result 类型：不是 list 也不是 str"
+                return "⚠️ The result type cannot be parsed: neither a list nor a str"
 
             return format_html('<pre style="white-space: pre-wrap;">{}</pre>', formatted_json)
         except Exception as e:
-            return f"⚠️ 无法解析 JSON：{e}"
+            return f"unable to parse JSON：{e}"
 
 
 

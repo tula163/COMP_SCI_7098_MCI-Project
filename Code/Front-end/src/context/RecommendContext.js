@@ -4,12 +4,12 @@ export const RecommendContext = createContext();
 
 export const RecommendProvider = ({ children }) => {
   const [recommendResult, setRecommendResult] = useState(() => {
-    // ✅ 初始时尝试从 localStorage 读取
+    // Initially, attempt to read from localStorage
     const stored = localStorage.getItem("recommendResult");
     return stored ? JSON.parse(stored) : [];
   });
 
-  // ✅ 每次更新时写入 localStorage
+  //Write to localStorage each time it is updated
   useEffect(() => {
     localStorage.setItem("recommendResult", JSON.stringify(recommendResult));
   }, [recommendResult]);

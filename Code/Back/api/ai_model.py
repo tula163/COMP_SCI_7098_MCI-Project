@@ -5,18 +5,18 @@ from sklearn.metrics.pairwise import cosine_similarity
 from .models import Agent
 from .custom_layers import L2Normalization
 
-# 加载模型和代理人向量
+# Load the model and the agent vector
 model = load_model("model/towers1111_model.keras", custom_objects={"L2Normalization": L2Normalization})
 agent_vectors = np.load("model/agent_vectors.npy")
 
-# 所有特征字段（固定顺序）
+# All characteristic fields (fixed order)
 FEATURES = [
     "Language", "Google_rating", "Success_rate", "Charge",
     "Visa_type", "Experience_years", "Booking_preference",
     "Location", "Availability", "Employment_type"
 ]
 
-# ✅ 动态权重生成
+# Dynamic weight generation
 def get_dynamic_weights(user_input: dict) -> dict:
     filled_fields = [f for f in FEATURES if user_input.get(f) not in [None, ""]]
     total = len(filled_fields)
@@ -25,7 +25,7 @@ def get_dynamic_weights(user_input: dict) -> dict:
     weight_per_field = 1.0 / total
     return {f: (weight_per_field if f in filled_fields else 0.0) for f in FEATURES}
 
-# ✅ 特征预处理
+# Feature preprocessing
 def preprocess_user_input(input_dict: dict, weights: dict):
     feature_vector = []
     for field in FEATURES:
@@ -54,10 +54,10 @@ def is_match(user_input: dict, agent: Agent) -> bool:
             return agent.experience_years > 30
     except Exception:
         return True
-    return True  # 默认通过
+    return True  # Default true
 
 
-# ✅ 推理主函数
+# main function
 def predict_agent(user_input: dict, top_k: int = 3):
     weights = get_dynamic_weights(user_input)
     user_vector = preprocess_user_input(user_input, weights)
@@ -70,7 +70,7 @@ def predict_agent(user_input: dict, top_k: int = 3):
         try:
             agent = Agent.objects.get(id=idx + 1)
 
-            if not is_match(user_input, agent):  # ✅ 增加过滤逻辑
+            if not is_match(user_input, agent):  # add filter logic
                 continue
 
             results.append({

@@ -21,8 +21,8 @@ class AgentListView(generics.ListAPIView):
     queryset = Agent.objects.all()
     serializer_class = AgentSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['location', 'language', 'employment_type']  # 可筛选字段
-    search_fields = ['full_name', 'location', 'language']           # 可搜索字段
+    filterset_fields = ['location', 'language', 'employment_type']  # Selectable fields
+    search_fields = ['full_name', 'location', 'language']           # Searchable field
 
 
 from rest_framework.views import APIView
@@ -42,21 +42,21 @@ class AgentAIRecommendView(APIView):
         try:
             user_input = request.data
 
-            # ✅ 若所有字段都为空
+            # If all fields are empty
             if not any(user_input.values()):
-                return error("至少填写一个字段才能进行推荐", code=400)
+                return error("At least one field must be filled in to make a recommendation", code=400)
 
             result = predict_agent(user_input)
 
-            # ✅ 存入推荐记录表
+            # Save it in the recommendation record form
             RecommendationRecord.objects.create(
                 input_data=user_input,
                 result=result
             )
 
-            # ✅ 成功统一返回结构
+            # Successfully unified the return structure
             return success(result)
 
         except Exception as e:
-            return error(f"服务器异常：{str(e)}", code=500)
+            return error(f"Server anomaly：{str(e)}", code=500)
 

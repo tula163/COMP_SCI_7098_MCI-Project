@@ -4,8 +4,8 @@ from . import views
 from .views import AgentListView,AgentListAllView,AgentAIRecommendView
 
 urlpatterns = [
-    path('agents/', AgentListView.as_view()),  # 分页
-    path('agents/all/', AgentListAllView.as_view()),   # 不分页版本
+    path('agents/', AgentListView.as_view()),  # split page
+    path('agents/all/', AgentListAllView.as_view()),   # no split page
     path('agents/recommend/', AgentAIRecommendView.as_view()),
 ]
 
