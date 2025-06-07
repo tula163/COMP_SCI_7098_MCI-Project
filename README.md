@@ -12,24 +12,15 @@ a1880849 `Jianghao Jin`	<br>
 a1882117 `Jianing Dang`	
 
 # How to start the project ?
-### 1. git clone
+## 1. git clone
 
    ```bash
    git clone https://github.cs.adelaide.edu.au/MCI-Project-2025/HA1.git
    ```
 
-### 2. Normal start frontend and backend separate
+## 2. Normal start frontend and backend separate
 
-## Frontend
-   ```bash
-   cd Code/Front-end
-   # install dependency
-   npm install
-   # start server
-   npm start
-   ```
-
-## Backend (for first initial)
+### Backend (for initial)
    ```bash
    cd Back
 
@@ -55,10 +46,19 @@ a1882117 `Jianing Dang`
    python manage.py createsuperuser
    ```
 
-## Backend
+### Frontend start
+   ```bash
+   cd Code/Front-end
+   # install dependency (optional: depend on if you have installed before)
+   npm install
+   # start server
+   npm start
+   ```
+
+### Backend start
    ```bash
    cd Code/Back
-   # install dependency
+   #  active virtural environment
    source venv/bin/activate
    # start server
    python manage.py runserver
@@ -66,7 +66,7 @@ a1882117 `Jianing Dang`
 
 
 
-### 2. Quick start(make sure you have install all dependency and creat virtural environment before)
+## 3. Quick start(make sure you have install all dependency and creat virtural environment before)
 
    ```bash
    cd Code
