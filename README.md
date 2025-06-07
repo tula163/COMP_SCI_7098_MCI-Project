@@ -17,7 +17,56 @@ a1882117 `Jianing Dang`
    ```bash
    git clone https://github.cs.adelaide.edu.au/MCI-Project-2025/HA1.git
    ```
-### 2. Auto Install front-end and back-end dependency and run together with script: 
+
+### 2. Normal start frontend and backend separate
+
+## Frontend
+   ```bash
+   cd Code/Front-end
+   # install dependency
+   npm install
+   # start server
+   npm start
+   ```
+
+## Backend (for first initial)
+   ```bash
+   cd Back
+
+   # create virtural environment 
+   python -m venv venv
+
+   # for Windows ----- active virtural environment
+   venv\Scripts\activate
+
+   # for  macOS/Linux ----- active virtural environment
+   source venv/bin/activate
+
+   #  install dependency
+   pip install -r requirements.txt
+
+   # initial database
+   python manage.py migrate
+
+   # start
+   python manage.py runserver
+
+   # (Optional) create your account for backstage management
+   python manage.py createsuperuser
+   ```
+
+## Backend
+   ```bash
+   cd Code/Back
+   # install dependency
+   source venv/bin/activate
+   # start server
+   python manage.py runserver
+   ```
+
+
+
+### 2. Quick start(make sure you have install all dependency and creat virtural environment before)
 
    ```bash
    cd Code
