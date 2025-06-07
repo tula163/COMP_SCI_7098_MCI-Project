@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { RecommendProvider } from "./context/RecommendContext";
+import GlobalSnackbarQueue from "@/components/Snackerbar"
 
 
 import {
@@ -13,6 +14,8 @@ import router from './routes';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <>
+  <GlobalSnackbarQueue />
   <React.StrictMode>
      <RecommendProvider>
   {/* <Provider store={store}> */}
@@ -21,6 +24,7 @@ root.render(
     </RecommendProvider>
   {/* </Provider> */}
   </React.StrictMode>
+  </>
 );
 
 
