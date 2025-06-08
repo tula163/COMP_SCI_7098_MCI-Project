@@ -74,39 +74,58 @@ a1882117 `Jianing Dang`
    ```
    
 # Document organizaton
-1. Agendas: stored in `docs/Agendas/~`
-2. Minutes: stored in `docs/Minutes/~`
-3. Timesheets: stored in `docs/Timesheets/~`
-4. Output documents for each week, such as report slides, table images and prototypes: store in `docs/Report/~`, with a folder name with the week number.
-5. Models: model training data stored in `models/datafiles/~`, named with a specific title, for example, `Migrant requirements.csv`.
-6. Back-end codes: stored in `backend/~` after testing and merging on the main branch.
-7. Front-end codes: stored in `frontend/~` after testing and merging on the main branch.
-8. Codes management: Firstly, we should create a branch named after our name and push the codes on this branch. After testing on local devices, the codes will be merged into the main branch to continue future testing.
-9. Document sharing: use `Microsoft 365` to share all the editable documents, such as slides, Word and Excel, which can help members monitor and check each other and facilitate cooperation.
+   ```bash
+   Project-Root/
+│
+├── Assignments/              # Assignment documents (plans, reports, slides)
+│
+├── Code/                     # Main codebase
+│   ├── Back/                 # Backend source code
+│   ├── Front-end/            # Frontend source code 
+│   └── start.sh              # Project startup script
+│
+├── Docs/                     # Project-related documentation
+│   ├── Agendas/              # Meeting agendas
+│   ├── Minutes/              # Meeting minutes/notes
+│   ├── Report/               # Weekly achievements
+│   ├── Test/                 # Test cases or plans
+│   └── Timesheets/           # Team timesheet records
+│
+├── Models/                   # Machine learning models
+│   ├── Dataset/              # Dataset preprocessing scripts or samples
+│   ├── KNN-CF/               # K-Nearest Neighbors Collaborative Filtering model
+│   ├── LightGCN/             # Light Graph Convolution Network model
+│   ├── NCF/                  # Neural Collaborative Filtering model
+│   └── Two_tower/            # Two-Tower recommendation model
+│
+├── .gitignore                # Git ignore rules
+└── README.md                 # Project overview and instructions
 
-# Branch specification
+   ```
+
+
+# Archetecture and Technology stack
+Frontend: React + MUI + Tailwind
+
+Backend: Django + Python 3.11 + simpleui
+
+Model: Two tower
+
+Database: SQLite3
+
+# Project management
+## Issue and task
+- There is a taskboard recording the tasks for our project, shown in `Project - HA1` <br>
+- There is a `Wiki` for quickly find our project documents.
+
+## Branch
 - Branch `main` is for distribution, merge only verified stable versions and all documents.
 - Branch `DEV` is for development, both front-end, back-end and model, just for coding.
 
-# Project taskboard
-There is a taskboard recording the tasks for our project, shown in `Project - HA1` <br>
+## Document collaboration
 
-# Archetecture and Technology stack
-This project follows the “Frontend-Backend Separation with MVC-based Backend” architecture:
+use `Microsoft 365` to share all the editable documents, such as slides, Word and Excel, which can help members monitor and check each other and facilitate cooperation.
 
-## Frant-end
-- Framework: React 
-- Package Manager: NPM
-- HTTP Client: Axios 
-- UI Library: Ant Design (antd)
-- Style management tool : Scss
-- State Management: Utilizes React’s built-in `useState` and `useEffect` hooks (`Redux` is not used)
 
-## Back-end
-- Framework: Spring Boot 
-- Build Tool: Maven 
-- Database: MySQL 
-- Language: Java
 
-## Model
-- Language: Python
+
