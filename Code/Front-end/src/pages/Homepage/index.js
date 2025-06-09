@@ -4,23 +4,60 @@
 import React from "react";
 // import { Button } from "@/components/ui/button"
 import { useNavigate } from 'react-router-dom';
+import { AppBar, Toolbar, Typography, Button, Container, Avatar, Box, Grid, Divider } from '@mui/material';
+
 
 export default function Homepage() {
     const navigate = useNavigate();
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-purple-100 via-white to-pink-100">
       {/* Header */}
-      <header className="w-full px-8 py-4 flex justify-between items-center text-sm bg-white/50 backdrop-blur-sm ">
-        <div className="font-bold text-indigo-600" >Logo</div>
-        <nav className="flex gap-6 text-gray-700">
-          <a href="/view">View agents</a>
-          <a href="#">Product</a>
-          <a href="#">Features</a>
-          <a href="#">Marketplace</a>
-          <a href="#">Company</a>
-        </nav>
-        <a href="#" className="text-sm text-gray-700">Log in →</a>
-      </header>
+      <AppBar 
+        position="static" 
+        sx={{
+          backgroundColor: "#002534",
+          height: "100px",
+          boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", // shaddow's y=4px, blur 4px
+        }}
+        >
+        <Toolbar 
+          sx={{
+            minHeight: "100px !important",
+            px: 0, // remove left and right padding
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <Box sx={{ pl: "96px" }}> 
+            <Typography
+              variant="h6"
+              component="a"
+              href="/"
+              sx={{
+                fontFamily: "Newsreader, serif",
+                fontWeight: "bold",
+                color: "#8FE9FF",
+                fontSize: "30px", 
+                textDecoration: "none",
+              }}
+            >
+              AI-based Recommendation System
+            </Typography>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              gap: "40px", // distance between buttons
+              pr: "96px",
+            }}
+          >
+            <Button href="/view" sx={{ color: "#FFFFFF", textTransform: "none", fontSize: "20px", fontFamily: "Inter, sans-serif", fontWeight: 500,}}>View agents</Button>
+            <Button href="/question" sx={{ color: "#FFFFFF", textTransform: "none", fontSize: "20px", fontFamily: "Inter, sans-serif",fontWeight: 500,}}>Generate recommendations</Button>
+            <Button href="/contact-us" sx={{ color: "#FFFFFF", textTransform: "none", fontSize: "20px", fontFamily: "Inter, sans-serif",fontWeight: 500,}}>Contact us</Button>
+          </Box>
+        </Toolbar>
+      </AppBar>
 
       {/* Main Content */}
       <main className="flex-grow flex flex-col justify-center items-center px-4">
@@ -41,15 +78,8 @@ export default function Homepage() {
       </main>
 
       {/* Footer */}
-      <footer className="w-full border-t border-gray-200 py-4 px-8 flex justify-between items-center text-sm text-gray-500">
-        <div>© 2025 HA1 Group, Inc. All rights reserved.</div>
-        <div className="flex gap-4 text-gray-500">
-          <a href="#">📘</a>
-          <a href="#">📸</a>
-          <a href="#">𝕏</a>
-          <a href="#">🐙</a>
-          <a href="#">▶️</a>
-        </div>
+      <footer className="bg-[#072C3F] text-white text-[14px] leading-[20px] py-2 pl-[30px] text-left">
+        © 2025 HA1 Group, Project for Master of Computing and Innovation
       </footer>
     </div>
   );
