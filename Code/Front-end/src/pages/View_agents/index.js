@@ -16,6 +16,8 @@ const availabilities = [
   "4 - 6 month"
 ];
 
+const PAGE_SIZE = 12;
+
 export default function ViewAgents() {
   const [searchTerm, setSearchTerm] = useState("");
   const [locationFilter, setLocationFilter] = useState("");
@@ -34,7 +36,7 @@ export default function ViewAgents() {
   const [agentData, setAgentData] = useState({
     total: 0,
     current: 1,
-    pageSize: 12,
+    pageSize: PAGE_SIZE,
     results: [],
     next: null,
     previous: null
@@ -82,7 +84,7 @@ export default function ViewAgents() {
         setAgentData({
           total: res.count,
           current: currentPage,
-          pageSize: res.results.length,
+          pageSize: PAGE_SIZE, 
           next: res.next,
           previous: res.previous,
           results: res.results
@@ -264,7 +266,7 @@ export default function ViewAgents() {
         <PaginationBar
           total={agentData.total}
           current={filters.page}
-          pageSize={agentData.pageSize}
+          pageSize={ PAGE_SIZE}
           onPageChange={(page) => {
             setFilters((prev) => ({ ...prev, page }));
           }}
