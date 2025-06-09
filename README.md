@@ -27,14 +27,17 @@ a1882117 `Jianing Dang`
    # create virtural environment 
    python -m venv venv
 
-   # for Windows ----- active virtural environment
-   venv\Scripts\activate
+   # for Windows ----- in the GitHub Bash to active virtural environment
+   source venv/Scripts/activate
 
    # for  macOS/Linux ----- active virtural environment
    source venv/bin/activate
 
-   #  install dependency
+   # install dependency
    pip install -r requirements.txt
+
+   # if there is an error warming no matching distribution found for tensorflow-io-gcs-filesystem==0.37.1 for Windows users, please check the version you can get by the follwoing lines, then select a applicable version number and change the version number in the file requirements.txt
+   pip index versions tensorflow-io-gcs-filesystem
 
    # initial database
    python manage.py migrate
