@@ -1,55 +1,116 @@
 import React, { useState, useEffect } from "react";
-import agentImage from "@/assets/people image.png";
 import searchIcon from "@/assets/search icon.png";
 import filterIcon from "@/assets/filter icon.png";
-import agentsData from "./agents.json";
+import { getAgentsWithPage } from "@/api/requireApi";
+import { useSnackbarQueue } from "@/store/useSnackbarQueue";
+import PaginationBar from "./PaginationBar";
+import { Box, Typography ,CircularProgress} from "@mui/material";
+
+
+const locations =["NSW","VIC","QLD","SA","WA","TAS","ACT","NT"]
+
+const availabilities = [
+  "Immediately",
+  "1 month",
+  "2 - 3 month",
+  "4 - 6 month"
+];
+
+const PAGE_SIZE = 12;
 
 export default function ViewAgents() {
   const [searchTerm, setSearchTerm] = useState("");
   const [locationFilter, setLocationFilter] = useState("");
   const [availabilityFilter, setAvailabilityFilter] = useState("");
-  const [filteredAgents, setFilteredAgents] = useState(agentsData);
-  const [currentPage, setCurrentPage] = useState(1);
   const [showLocationMenu, setShowLocationMenu] = useState(false);
   const [showAvailabilityMenu, setShowAvailabilityMenu] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const agentsPerPage = 12;
+  const [filters, setFilters] = useState({
+    page: 1,
+    q: "",
+    location: "",
+    availability: ""
+  });
 
-  const locations = Array.from(new Set(agentsData.map((a) => a.location))).sort();
-  const availabilities = Array.from(
-    new Set(agentsData.map((a) => a.availability))
-  ).sort();
+  const [agentData, setAgentData] = useState({
+    total: 0,
+    current: 1,
+    pageSize: PAGE_SIZE,
+    results: [],
+    next: null,
+    previous: null
+  });
 
+  const { showMessage } = useSnackbarQueue();
+
+  // Search 
   const handleSearch = () => {
-    const keyword = searchTerm.toLowerCase().trim();
-    const result = agentsData.filter((agent) => {
-      const matchSearch =
-        keyword === "" ||
-        agent.name.toLowerCase().includes(keyword) ||
-        agent.marn.toString().includes(keyword);
-      const matchLocation =
-        locationFilter === "" || agent.location === locationFilter;
-      const matchAvailability =
-        availabilityFilter === "" || agent.availability === availabilityFilter;
-      return matchSearch && matchLocation && matchAvailability;
-    });
-    setFilteredAgents(result);
-    setCurrentPage(1);
+    setFilters((prev) => ({
+      ...prev,
+      page: 1,
+      q: searchTerm.trim(),
+      location: locationFilter,
+      availability: availabilityFilter
+    }));
   };
 
+  // locationFilter / availabilityFilter change
   useEffect(() => {
-    handleSearch();
+    setFilters((prev) => ({
+      ...prev,
+      page: 1,
+      q: searchTerm.trim(),
+      location: locationFilter,
+      availability: availabilityFilter
+    }));
   }, [locationFilter, availabilityFilter]);
 
-  const totalPages = Math.ceil(filteredAgents.length / agentsPerPage);
-  const startIndex = (currentPage - 1) * agentsPerPage;
-  const currentAgents = filteredAgents.slice(
-    startIndex,
-    startIndex + agentsPerPage
-  );
+  // request
+  useEffect(() => {
+    const fetchAgents = async () => {
+      setLoading(true); 
+      try {
+        const res = await getAgentsWithPage(filters);
+
+        const getCurrentPage = (url) => {
+          if (!url) return null;
+          const params = new URLSearchParams(url.split("?")[1]);
+          return parseInt(params.get("page")) || null;
+        };
+
+        const currentPage = filters.page || getCurrentPage(res.config.url) || 1;
+
+        setAgentData({
+          total: res.count,
+          current: currentPage,
+          pageSize: PAGE_SIZE, 
+          next: res.next,
+          previous: res.previous,
+          results: res.results
+        });
+      } catch (err) {
+        showMessage({ type: "error", message: "Failed to fetch agents" });
+      } finally{
+        setLoading(false);
+      }
+    };
+
+    fetchAgents();
+  }, [filters,showMessage]);
+
+  // avator
+  const hashMarn = (marn) => {
+    let sum = 0;
+    for (let i = 0; i < marn.length; i++) {
+      sum += marn.charCodeAt(i);
+    }
+    return sum % 100;
+  };
 
   return (
     <div className="px-8 py-6 bg-[#f5f6f7] min-h-screen font-sans">
+      {/* search */}
       <div className="flex flex-wrap gap-4 mb-10 items-center">
         <div className="w-[40%] relative">
           <input
@@ -72,6 +133,7 @@ export default function ViewAgents() {
           Search
         </button>
 
+        {/* Location filter */}
         <div className="relative w-[23%]">
           <button
             onClick={() => setShowLocationMenu((prev) => !prev)}
@@ -107,6 +169,7 @@ export default function ViewAgents() {
           )}
         </div>
 
+        {/* Availability filter */}
         <div className="relative w-[23%]">
           <button
             onClick={() => setShowAvailabilityMenu((prev) => !prev)}
@@ -143,116 +206,73 @@ export default function ViewAgents() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {currentAgents.length > 0 ? (
-          currentAgents.map((agent) => (
+      {/* main */}
+      {loading ? (
+  <Box className="w-full h-[calc(100vh-200px)] flex items-center justify-center">
+    <CircularProgress />
+  </Box>
+) : (
+      <div className="grid  grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {agentData.results.length > 0 ? (
+          agentData.results.map((agent) => (
             <div
               key={agent.id}
               className="border-2 border-blue-500 rounded-lg bg-white p-6 shadow-sm hover:shadow-md transition w-full max-w-[300px] mx-auto"
             >
               <img
-                src={agentImage}
-                alt={agent.name}
+                src={`https://randomuser.me/api/portraits/men/${hashMarn(agent.marn)}.jpg`}
+                alt={`${agent.full_name} avatar`}
                 className="w-24 h-24 object-cover rounded-full mx-auto mb-4"
               />
               <h2 className="text-center text-lg font-bold text-gray-900">
-                {agent.name}
+                {agent.full_name}
               </h2>
               <p className="text-center text-gray-700 text-sm mb-3">
                 MARN: {agent.marn}
               </p>
               <ul className="text-sm text-[#004c5a] list-decimal list-inside mb-4 leading-relaxed">
                 <li>Location: {agent.location}</li>
-                <li>Google rating: {agent.rating}</li>
-                <li>Success rate: {agent.successRate}</li>
+                <li>Google rating: {agent.google_rating}</li>
+                <li>Success rate: {agent.success_rate}</li>
                 <li>Availability: {agent.availability}</li>
               </ul>
-              <button className="w-full bg-[#004c5a] text-white font-medium text-sm py-2.5 rounded-md hover:bg-[#003d4a] transition">
+              <button
+                onClick={() =>
+                  agent.website
+                    ? window.open(agent.website, "_blank")
+                    : alert("This agent does not have a website.")
+                }
+                className="w-full bg-[#004c5a] text-white font-medium text-sm py-2.5 rounded-md hover:bg-[#003d4a] transition"
+              >
                 Get contact
               </button>
             </div>
           ))
         ) : (
-          <p className="text-center col-span-4 text-gray-500 text-sm italic">
-            No agents found.
-          </p>
+          <Box className="col-span-full h-[calc(100vh-164px)] w-full flex flex-col items-center justify-center py-16">
+            <Typography variant="h6" color="textSecondary" gutterBottom>
+              😕 No agents found
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              Try a different keyword or remove filters.
+            </Typography>
+          </Box>
         )}
-      </div>
+      </div>  
 
-      <div className="mt-10 flex flex-wrap justify-center items-center gap-2 text-sm text-gray-800">
-        <p className="mr-4 font-medium">
-          There are {filteredAgents.length} agents in total.
-        </p>
-        <button
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          className="px-2 py-0 border border-blue-500 rounded text-lg hover:bg-gray-100"
-          disabled={currentPage === 1}
-        >
-          &lt;
-        </button>
-        {Array.from({ length: totalPages })
-          .map((_, i) => i + 1)
-          .filter((page) => {
-            return (
-              page === 1 ||
-              page === totalPages ||
-              Math.abs(page - currentPage) <= 1 ||
-              page === 2 ||
-              page === totalPages - 1
-            );
-          })
-          .reduce((acc, page, idx, arr) => {
-            if (idx > 0 && page !== arr[idx - 1] + 1) {
-              acc.push("...");
-            }
-            acc.push(page);
-            return acc;
-          }, [])
-          .map((item, index) =>
-            item === "..." ? (
-              <span key={`ellipsis-${index}`} className="px-2">
-                ...
-              </span>
-            ) : (
-              <button
-                key={item}
-                onClick={() => setCurrentPage(item)}
-                className={`px-3 py-1 border border-blue-500 rounded ${
-                  item === currentPage
-                    ? "font-bold text-black"
-                    : "hover:bg-gray-100"
-                }`}
-              >
-                {item}
-              </button>
-            )
-          )}
-        <button
-          onClick={() =>
-            setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-          }
-          className="px-2 py-0 border border-blue-500 rounded text-lg hover:bg-gray-100"
-          disabled={currentPage === totalPages}
-        >
-          &gt;
-        </button>
-        <span className="ml-4">Jump to page</span>
-        <input
-          type="number"
-          min="1"
-          max={totalPages}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              const val = parseInt(e.target.value);
-              if (!isNaN(val) && val >= 1 && val <= totalPages) {
-                setCurrentPage(val);
-                e.target.value = "";
-              }
-            }
+)}
+  
+      {agentData.total > 0 && (
+        <PaginationBar
+          total={agentData.total}
+          current={filters.page}
+          pageSize={ PAGE_SIZE}
+          onPageChange={(page) => {
+            setFilters((prev) => ({ ...prev, page }));
           }}
-          className="w-16 px-3 py-1 border border-blue-500 rounded text-center"
         />
-      </div>
+      )}
+ 
     </div>
   );
 }

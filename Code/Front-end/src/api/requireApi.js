@@ -3,12 +3,15 @@
 import api from './index';
 
 
-// 获得推荐
-// export function getRecommend(data) {
-//   return axios.post('/api/agents/recommend/', data);
-// }
-
 
 export const getRecommend = async (payload) => {
   return api.post('/api/agents/recommend/', payload);
 };
+
+
+
+
+// get pagenagation agent list
+export function getAgentsWithPage(params) {
+  return api.get('/api/agents/',{params});
+}
