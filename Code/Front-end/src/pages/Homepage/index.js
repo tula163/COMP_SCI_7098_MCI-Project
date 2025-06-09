@@ -13,6 +13,7 @@ export default function Homepage() {
       <header className="w-full px-8 py-4 flex justify-between items-center text-sm bg-white/50 backdrop-blur-sm ">
         <div className="font-bold text-indigo-600" >Logo</div>
         <nav className="flex gap-6 text-gray-700">
+          <a href="/view">View agents</a>
           <a href="#">Product</a>
           <a href="#">Features</a>
           <a href="#">Marketplace</a>

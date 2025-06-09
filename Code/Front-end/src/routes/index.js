@@ -3,7 +3,7 @@ import HomePage from "@/pages/Homepage";
 import { createBrowserRouter } from "react-router";
 import Question from "@/pages/Question";
 import ResultPage from "../pages/Result";
-import AgentForm from "@/pages/AgentForm";
+import ViewAgents from "@/pages/View_agents";
 
 
 
@@ -21,9 +21,10 @@ const router = createBrowserRouter([
       Component: ResultPage,
     },
     {
-      path: "/agent",
-      Component: AgentForm,
-    }
+      path: "/view",
+      Component: ViewAgents,
+    },
+
   ]);
 
   export default router
