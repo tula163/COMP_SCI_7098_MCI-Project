@@ -4,6 +4,7 @@ import { createBrowserRouter } from "react-router";
 import Question from "@/pages/Question";
 import ResultPage from "../pages/Result";
 import ViewAgents from "@/pages/View_agents";
+import ContactUs from "@/pages/Contact-us";
 
 
 
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
     {
       path: "/view",
       Component: ViewAgents,
+    },
+    {
+      path: "/contact-us",
+      Component: ContactUs,
     },
 
   ]);
