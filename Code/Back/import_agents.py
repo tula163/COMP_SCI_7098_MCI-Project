@@ -2,7 +2,7 @@ import csv
 import os
 import django
 
-# 设置 Django 环境
+# Setting Django envitonment
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ha1.settings')
 django.setup()
 
@@ -27,4 +27,8 @@ with open('agents_with_website.csv', newline='', encoding='utf-8') as csvfile:
             website=row['Website'],
         )
 
+<<<<<<< HEAD
 print("✅ 数据导入完成")
+=======
+print("IMPORT FINISHED")
+>>>>>>> 963f0b79ae6f620b45255fcbec639c051a0cae2c
