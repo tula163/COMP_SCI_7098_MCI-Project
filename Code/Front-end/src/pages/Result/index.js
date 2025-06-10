@@ -1,13 +1,24 @@
 import React from "react";
-import { useContext } from "react";
-import { RecommendContext } from "@/context/RecommendContext";
+
 import Navbar from "@/components/Navbar";
 import Footerbar from "@/components/Footerbar"
+import { useLocation } from "react-router-dom";
+import { useSnackbarQueue } from "@/store/useSnackbarQueue";
 
 const ResultPage = () => {
-  const { recommendResult } = useContext(RecommendContext);
+  const location = useLocation();
+  const resultData = location.state; 
 
-  // 模拟数据 - 基于接口文档和原型图结构
+    const { showMessage } = useSnackbarQueue();
+  
+  const hashMarn = (marn) => {
+    let sum = 0;
+    for (let i = 0; i < marn.length; i++) {
+      sum += marn.charCodeAt(i);
+    }
+    return sum % 100;
+  };
+
   const mockData = [
     {
       marn: "1800328",
@@ -51,14 +62,14 @@ const ResultPage = () => {
   ];
 
   const displayData =
-    recommendResult && recommendResult.length > 0 ? recommendResult : mockData;
+  resultData && resultData.length > 0 ? resultData : mockData;
 
-  // 格式化评分为百分比
+
   const formatScore = (score) => {
     return Math.round(score * 100);
   };
 
-  // 内联SVG组件为角标
+
   const CornerBadge = ({ number, color }) => {
     return (
       <div className="absolute top-0 left-0 w-16 h-16 overflow-hidden">
@@ -151,7 +162,7 @@ const ResultPage = () => {
               {/* Agent Avatar */}
               <div className="flex justify-center mb-6 mt-4">
                 <img
-                src={`https://randomuser.me/api/portraits/men/${index}.jpg`}
+                src={`https://randomuser.me/api/portraits/men/${hashMarn(agent.marn)}.jpg`}
                 alt={`${agent.funame} avatar`}
                 className="w-24 h-24 object-cover rounded-full mx-auto mb-4"
               />
@@ -174,16 +185,20 @@ const ResultPage = () => {
               {/* Agent Details */}
               <div className="text-base text-gray-700 space-y-2 mb-8">
                 <p>1. Location: {agent.location}</p>
-                <p>2. Google rating: {agent.googleRating}</p>
-                <p>3. Success rate: {agent.successRate}</p>
+                <p>2. Google rating: {agent.google_rating}</p>
+                <p>3. Success rate: {agent.success_rate}</p>
                 <p>4. Availability: {agent.availability}</p>
-                <p>5. Experience years: {agent.experienceYears}</p>
+                <p>5. Experience years: {agent.experience_years}</p>
               </div>
 
               {/* Get Contact Button  */}
               <button
-                onClick={() => window.open(`/contact/${agent.marn}`, "_blank")}
-                className="w-full bg-cyan-800 hover:bg-slate-800 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
+                onClick={() =>
+                  agent.website
+                    ? window.open(agent.website, "_blank")
+                    : showMessage({ type: "error", message: "This agent does not have a website." })
+                }
+                className="w-full bg-[#004c5a] text-white font-medium text-sm py-2.5 rounded-md hover:bg-[#003d4a] transition"
               >
                 Get contact
               </button>

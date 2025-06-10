@@ -16,6 +16,7 @@ from rest_framework.response import Response
 from rest_framework import status, generics
 from rest_framework import filters
 from .filters import AgentFilter
+from django.db.models import Q
 
 
 
@@ -60,14 +61,23 @@ class AgentListView(generics.ListAPIView):
 
 #  all
 class AgentListAllView(APIView):
-    def get(self, request):
-        agents = Agent.objects.all()
+    def post(self, request):
+        query = request.data.get('q', '')  
+
+        if query:
+            agents = Agent.objects.filter(
+                Q(full_name__icontains=query) | Q(marn__icontains=query)
+            )
+        else:
+            agents = Agent.objects.all()
+
         serializer = AgentSerializer(agents, many=True)
         return Response({
             "code": 200,
             "msg": "Success",
             "data": serializer.data
-        }, status= status.HTTP_200_OK)
+        }, status=status.HTTP_200_OK)
+
 
 
 

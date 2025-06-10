@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 import banner from "@/assets/generate recommendation banner.jpg";
-
+import {   Container ,Box,Typography,Button} from '@mui/material';
 import visaTypes from "./visaTypes.json";
 import languages from "./languages.json";
+import Navbar from "@/components/Navbar";
+import {getRecommend} from "@/api/requireApi"
+import { useNavigate } from 'react-router-dom';
+import { useSnackbarQueue } from "@/store/useSnackbarQueue";
 
 export default function QuestionPage() {
+  const navigate = useNavigate();
   const [answers, setAnswers] = useState({});
   const [visaInput, setVisaInput] = useState("");
   const [language, setLanguage] = useState("");
   const [isAllCollapsed, setIsAllCollapsed] = useState(false);
+  const { showMessage } = useSnackbarQueue();
+  const answeredCount =
+  Object.keys(answers).length + (language ? 1 : 0) + (visaInput ? 1 : 0);
 
   const [expanded, setExpanded] = useState(
     Object.fromEntries(Array.from({ length: 10 }, (_, i) => [i + 1, true]))
@@ -91,8 +99,31 @@ export default function QuestionPage() {
     },
   ];
 
+  const handleSubmit = async () => {
+    const data = {
+      ...answers,                
+      language,                  
+      visa_type: visaInput,      
+    };
+  
+    try {
+      const res = await getRecommend(data);
+
+      
+      navigate("/result", { state: res });
+    } catch (error) {
+      showMessage({ type: "error", message: "Failed to get agents" });
+    }
+  };
+  
   return (
-    <div className="px-8 py-6 bg-[#f5f6f7] min-h-screen font-sans text-base">
+    <>
+         <Navbar></Navbar>
+         <Container maxWidth="lg">
+ 
+
+    <div className="px-8 py-10  h-full font-sans text-base">
+    
       <div className="bg-white border border-gray-300 rounded-md overflow-hidden mb-6">
         <div className="grid grid-cols-1 md:grid-cols-3">
           <img
@@ -164,6 +195,7 @@ export default function QuestionPage() {
         </div>
       ))}
 
+
       <div className="bg-white border border-gray-400 rounded-md mb-4">
         <div
           className="bg-[#3083A6] text-white font-semibold px-4 py-2 flex justify-between items-center cursor-pointer text-lg"
@@ -230,6 +262,31 @@ export default function QuestionPage() {
           </div>
         )}
       </div>
+
+
+<Box
+  sx={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    mt: 3
+  }}
+>
+<Typography>
+  You have answered {answeredCount} {answeredCount === 1 ? "question" : "questions"}. Click “Submit” to get your matches.
+</Typography>
+
+  <Button
+    variant="contained"
+    sx={{ fontWeight: 700 }}
+    type="submit"
+    onClick={handleSubmit}
+  >
+    Submit
+  </Button>
+</Box>
     </div>
+    </Container>
+    </>
   );
 }

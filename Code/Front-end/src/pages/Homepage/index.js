@@ -2,14 +2,15 @@
 // Homepage.jsx
 
 
-import React from "react";
+import React , { useState, useEffect }from "react";
 import { useNavigate } from 'react-router-dom';
-
 import homeBanner from "@/assets/home page banner.png";
 import peopleImage from "@/assets/people image.png";
-
+import { useSnackbarQueue } from "@/store/useSnackbarQueue";
 import Navbar from "@/components/Navbar";
 import Footerbar from "@/components/Footerbar"
+import { getAgentsAll } from "@/api/requireApi";
+
 
 const mockData = [
   {
@@ -52,6 +53,34 @@ const mockData = [
 
 export default function Homepage() {
     const navigate = useNavigate();
+      const [searchTerm, setSearchTerm] = useState("");
+    const { showMessage } = useSnackbarQueue();
+      // const [filters, setFilters] = useState({
+      //   q: ""
+      // });
+      const [cardData, setCardData] =  useState([]);
+
+  useEffect(() => {
+    const fetchAgents = async () => {
+      // setLoading(true); 
+      try {
+        const res = await getAgentsAll({q:searchTerm});
+
+        console.log(res,"res");
+        setCardData(res.slice(0, 3))
+
+      } catch (err) {
+        showMessage({ type: "error", message: "Failed to fetch agents" });
+      } finally{
+        // setLoading(false);
+      }
+    };
+
+    fetchAgents();
+  }, [searchTerm]);
+
+  
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-purple-100 via-white to-pink-100">
       {/* Header */}
@@ -101,6 +130,8 @@ export default function Homepage() {
           <div className="relative w-full max-w-lg">
             <input
               type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search agents by their name or MARN"
               className="w-full border border-gray-300 rounded-full py-3 px-6 pr-12 focus:outline-none focus:ring-2 focus:ring-cyan-500"
             />
@@ -117,24 +148,28 @@ export default function Homepage() {
         </div>
         {/* Agent Cards Grid */}
         <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {mockData.map((agent) => (
+          {cardData.map((agent,index) => (
             <div key={agent.marn} className="bg-white rounded-2xl border-2 border-cyan-700 p-6 text-center shadow hover:shadow-md">
-              <img
-                src={agent.avatar}
-                alt={`${agent.funame} avatar`}
-                className="mx-auto w-24 h-24 rounded-full mb-4 object-cover"
+                 <img
+                src={`https://randomuser.me/api/portraits/men/${index}.jpg`}
+                alt={`${agent.full_name} avatar`}
+                className="w-24 h-24 object-cover rounded-full mx-auto mb-4"
               />
-              <h3 className="text-xl font-semibold mb-1">{agent.funame}</h3>
+              <h3 className="text-xl font-semibold mb-1">{agent.full_name}</h3>
               <p className="text-gray-600 mb-4">MARN: {agent.marn}</p>
               <ul className="text-left text-gray-700 text-sm space-y-1 mb-6">
                 <li>1. Location: {agent.location}</li>
-                <li>2. Google rating: {agent.googleRating}</li>
-                <li>3. Success rate: {agent.successRate}</li>
+                <li>2. Google rating: {agent.google_rating}</li>
+                <li>3. Success rate: {agent.success_rate}</li>
                 <li>4. Availability: {agent.availability}</li>
               </ul>
               <button
-                onClick={() => navigate(`/contact/${agent.marn}`)}
-                className="bg-cyan-800 hover:bg-cyan-700 text-white font-semibold py-2 px-4 rounded-lg"
+                onClick={() =>
+                  agent.website
+                    ? window.open(agent.website, "_blank")
+                    :   showMessage({ type: "error", message: "This agent does not have a website." })
+                }
+                className="w-full bg-[#004c5a] text-white font-medium text-sm py-2.5 rounded-md hover:bg-[#003d4a] transition"
               >
                 Get contact
               </button>

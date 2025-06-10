@@ -15,3 +15,9 @@ export const getRecommend = async (payload) => {
 export function getAgentsWithPage(params) {
   return api.get('/api/agents/',{params});
 }
+
+
+// get pagenagation agent list
+export function getAgentsAll(data) {
+  return api.post('/api/agents/all/',data);
+}

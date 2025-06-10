@@ -9,55 +9,79 @@ from .custom_layers import L2Normalization
 model = load_model("model/towers1111_model.keras", custom_objects={"L2Normalization": L2Normalization})
 agent_vectors = np.load("model/agent_vectors.npy")
 
-# All characteristic fields (fixed order)
+
 FEATURES = [
-    "Language", "Google_rating", "Success_rate", "Charge",
-    "Visa_type", "Experience_years", "Booking_preference",
-    "Location", "Availability", "Employment_type"
+    "language", "google_rating", "success_rate", "charge",
+    "visa_type", "experience_years", "booking_preference",
+    "location", "availability", "employment_type"
 ]
 
-# Dynamic weight generation
-def get_dynamic_weights(user_input: dict) -> dict:
-    filled_fields = [f for f in FEATURES if user_input.get(f) not in [None, ""]]
-    total = len(filled_fields)
-    if total == 0:
-        return {f: 0.0 for f in FEATURES}
-    weight_per_field = 1.0 / total
-    return {f: (weight_per_field if f in filled_fields else 0.0) for f in FEATURES}
 
-# Feature preprocessing
+feature_weights = {
+    "language": 0.25,
+    "google_rating": 0.20,
+    "success_rate": 0.15,
+    "charge": 0.10,
+    "visa_type": 0.10,
+    "experience_years": 0.05,
+    "booking_preference": 0.05,
+    "location": 0.03,
+    "availability": 0.03,
+    "employment_type": 0.04
+}
+
+def get_dynamic_weights(user_input: dict) -> dict:
+    """
+    动态加权方案：
+    - 全部填写：直接用默认权重
+    - 填了N(<10)个字段：填写字段权重为 默认权重*(1+1/N)，其它为0，然后归一化
+    - 都没填：全0
+    """
+    # 保证 key 小写（防止大小写不一致导致匹配不上）
+    norm_input = {k.lower(): v for k, v in user_input.items()}
+    filled_fields = [f for f in FEATURES if norm_input.get(f) not in [None, ""]]
+    N = len(filled_fields)
+
+    # 全填：直接返回默认权重
+    if N == len(FEATURES):
+        return feature_weights.copy()
+    # 部分填
+    elif N > 0:
+        weights = {}
+        for f in FEATURES:
+            if f in filled_fields:
+                weights[f] = feature_weights[f] * (1 + 1.0 / N)
+            else:
+                weights[f] = 0.0
+        # 归一化（和为1）
+        total = sum(weights.values())
+        if total > 0:
+            weights = {k: v / total for k, v in weights.items()}
+        return weights
+    # 全没填
+    else:
+        return {f: 0.0 for f in FEATURES}
+
+
 def preprocess_user_input(input_dict: dict, weights: dict):
+    # key 全部小写，兼容前端传参不同写法
+    norm_input = {k.lower(): v for k, v in input_dict.items()}
     feature_vector = []
     for field in FEATURES:
-        value = input_dict.get(field)
+        value = norm_input.get(field)
         raw_value = 0.0
         if value is None or value == "":
             raw_value = 0.0
         elif isinstance(value, (int, float)):
             raw_value = float(value)
         else:
+            # 类别型用 hash
             raw_value = float(abs(hash(value)) % 1000) / 1000.0
         weighted_value = raw_value * weights[field]
         feature_vector.append(weighted_value)
     return np.array([feature_vector])
 
-def is_match(user_input: dict, agent: Agent) -> bool:
-    exp_range = user_input.get("Experience_years", "")
-    try:
-        if exp_range == "0 ~ 10 years":
-            return 0 <= agent.experience_years <= 10
-        elif exp_range == "11 ~ 20 years":
-            return 11 <= agent.experience_years <= 20
-        elif exp_range == "21 ~ 30 years":
-            return 21 <= agent.experience_years <= 30
-        elif exp_range == "More than 30 years":
-            return agent.experience_years > 30
-    except Exception:
-        return True
-    return True  # Default true
 
-
-# main function
 def predict_agent(user_input: dict, top_k: int = 3):
     weights = get_dynamic_weights(user_input)
     user_vector = preprocess_user_input(user_input, weights)
@@ -65,15 +89,25 @@ def predict_agent(user_input: dict, top_k: int = 3):
     similarities = cosine_similarity(user_embedding, agent_vectors)[0]
     top_indices = similarities.argsort()[::-1]
 
-    results = []
+   
+    candidates = []
     for idx in top_indices:
         try:
             agent = Agent.objects.get(id=idx + 1)
+           
+            exp_range = user_input.get("experience_years", "")
+            if exp_range:
+                exp_val = agent.experience_years
+                if exp_range == "0 ~ 10 years" and not (0 <= exp_val <= 10):
+                    continue
+                elif exp_range == "11 ~ 20 years" and not (11 <= exp_val <= 20):
+                    continue
+                elif exp_range == "21 ~ 30 years" and not (21 <= exp_val <= 30):
+                    continue
+                elif exp_range == "More than 30 years" and not (exp_val > 30):
+                    continue
 
-            if not is_match(user_input, agent):  # add filter logic
-                continue
-
-            results.append({
+            candidates.append({
                 "marn": agent.marn,
                 "funame": agent.full_name,
                 "location": agent.location,
@@ -90,10 +124,10 @@ def predict_agent(user_input: dict, top_k: int = 3):
                 "score": round(float(similarities[idx]), 4),
             })
 
-            if len(results) == top_k:
+            if len(candidates) == top_k:
                 break
 
         except Agent.DoesNotExist:
             continue
 
-    return results
+    return candidates

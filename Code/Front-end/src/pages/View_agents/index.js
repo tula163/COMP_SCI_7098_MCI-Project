@@ -243,7 +243,7 @@ export default function ViewAgents() {
                 onClick={() =>
                   agent.website
                     ? window.open(agent.website, "_blank")
-                    : alert("This agent does not have a website.")
+                    : showMessage({ type: "error", message: "This agent does not have a website." })
                 }
                 className="w-full bg-[#004c5a] text-white font-medium text-sm py-2.5 rounded-md hover:bg-[#003d4a] transition"
               >

@@ -21,7 +21,11 @@ const Navbar = () => {
         backgroundColor: "#002534",
         height: "80px",
         boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+        position: "sticky",
+        top: 0,
+        zIndex: 1100,
       }}
+      
     >
       <Toolbar
         sx={{
