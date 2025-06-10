@@ -5,59 +5,20 @@
 import React , { useState, useEffect }from "react";
 import { useNavigate } from 'react-router-dom';
 import homeBanner from "@/assets/home page banner.png";
-import peopleImage from "@/assets/people image.png";
+
 import { useSnackbarQueue } from "@/store/useSnackbarQueue";
 import Navbar from "@/components/Navbar";
 import Footerbar from "@/components/Footerbar"
 import { getAgentsAll } from "@/api/requireApi";
 
 
-const mockData = [
-  {
-    marn: "1800328",
-    funame: "Kumar Rahul",
-    avatar: peopleImage,
-    location: "SA",
-    googleRating: 4.9,
-    successRate: "over 81%",
-    availability: "4 to 6 months"
-  },
-  {
-    marn: "1799100",
-    funame: "Ramandeep Kaur",
-    avatar: peopleImage,
-    location: "QLD",
-    googleRating: 2.9,
-    successRate: "below 30%",
-    availability: "4 to 6 months"
-  },
-  {
-    marn: "1799035",
-    funame: "Jaspreet Kaur",
-    avatar: peopleImage,
-    location: "VIC",
-    googleRating: 4.1,
-    successRate: "over 81%",
-    availability: "2 to 3 months"
-  },
-  {
-    marn: "2318090",
-    funame: "Balwant Kaur",
-    avatar: peopleImage,
-    location: "VIC",
-    googleRating: 3.1,
-    successRate: "31% to 50%",
-    availability: "4 to 6 months"
-  }
-];
+
 
 export default function Homepage() {
     const navigate = useNavigate();
       const [searchTerm, setSearchTerm] = useState("");
     const { showMessage } = useSnackbarQueue();
-      // const [filters, setFilters] = useState({
-      //   q: ""
-      // });
+
       const [cardData, setCardData] =  useState([]);
 
   useEffect(() => {
@@ -67,7 +28,7 @@ export default function Homepage() {
         const res = await getAgentsAll({q:searchTerm});
 
         console.log(res,"res");
-        setCardData(res.slice(0, 3))
+        setCardData(res.slice(0, 24))
 
       } catch (err) {
         showMessage({ type: "error", message: "Failed to fetch agents" });
