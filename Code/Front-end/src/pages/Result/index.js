@@ -100,7 +100,7 @@ const ResultPage = () => {
           >
             {" "}
             <a
-              href="/view_agents"
+              href="/view"
               className="text-gray-200 hover:text-white transition-colors font-medium"
             >
               View agents
@@ -238,7 +238,7 @@ const ResultPage = () => {
             Restart
           </button>
           <button
-            onClick={() => (window.location.href = "/view_agents")}
+            onClick={() => (window.location.href = "/view")}
             className="bg-cyan-800 hover:bg-slate-800 text-white font-semibold py-4 px-10 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
           >
             View agents
