@@ -97,7 +97,7 @@ const ResultPage = () => {
               Generate recommendations
             </a>
             <a
-              href="/contact"
+              href="/contact-us"
               className="text-gray-200 hover:text-white transition-colors font-medium"
             >
               Contact us
@@ -223,7 +223,7 @@ const ResultPage = () => {
             Restart
           </button>
           <button
-            onClick={() => (window.location.href = "/agents")}
+            onClick={() => (window.location.href = "/view_agents")}
             className="bg-cyan-800 hover:bg-slate-800 text-white font-semibold py-4 px-10 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
           >
             View agents
