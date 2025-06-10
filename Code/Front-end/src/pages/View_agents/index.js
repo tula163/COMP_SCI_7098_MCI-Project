@@ -5,7 +5,7 @@ import { getAgentsWithPage } from "@/api/requireApi";
 import { useSnackbarQueue } from "@/store/useSnackbarQueue";
 import PaginationBar from "./PaginationBar";
 import { Box, Typography ,CircularProgress} from "@mui/material";
-
+import Navbar from "@/components/Navbar";
 
 const locations =["NSW","VIC","QLD","SA","WA","TAS","ACT","NT"]
 
@@ -109,7 +109,10 @@ export default function ViewAgents() {
   };
 
   return (
+    <>
+    <Navbar></Navbar>
     <div className="px-8 py-6 bg-[#f5f6f7] min-h-screen font-sans">
+      
       {/* search */}
       <div className="flex flex-wrap gap-4 mb-10 items-center">
         <div className="w-[40%] relative">
@@ -274,5 +277,6 @@ export default function ViewAgents() {
       )}
  
     </div>
+    </>
   );
 }

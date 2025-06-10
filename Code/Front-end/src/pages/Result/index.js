@@ -1,6 +1,8 @@
 import React from "react";
 import { useContext } from "react";
 import { RecommendContext } from "@/context/RecommendContext";
+import Navbar from "@/components/Navbar";
+import Footerbar from "@/components/Footerbar"
 
 const ResultPage = () => {
   const { recommendResult } = useContext(RecommendContext);
@@ -77,53 +79,12 @@ const ResultPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* Header - 导航栏颜色为蓝灰色 */}
-      <header
-        className="bg-[#002534] text-white px-8 shadow-lg"
-        style={{ height: "100px" }}
-      >
-        {" "}
-        <div
-          className="w-full flex justify-between items-center"
-          style={{ height: "100px", paddingLeft: "48px", paddingRight: "48px" }}
-        >
-          {" "}
-          <h1
-            className="font-bold text-[#8FE9FF]"
-            style={{ fontFamily: "Newsreader, serif", fontSize: "30px" }}
-          >
-            AI-based Recommendation System
-          </h1>{" "}
-          <nav
-            className="flex space-x-10 text-[20px]"
-            style={{ fontFamily: "Inter, sans-serif", fontWeight: 500 }}
-          >
-            {" "}
-            <a
-              href="/view"
-              className="text-gray-200 hover:text-white transition-colors font-medium"
-            >
-              View agents
-            </a>
-            <a
-              href="/question"
-              className="text-gray-200 hover:text-white transition-colors font-medium"
-            >
-              Generate recommendations
-            </a>
-            <a
-              href="/contact-us"
-              className="text-gray-200 hover:text-white transition-colors font-medium"
-            >
-              Contact us
-            </a>
-          </nav>
-        </div>
-      </header>
+      {/* Header  */}
+    <Navbar></Navbar>
 
       {/* Main Content */}
       <main className="flex-1 max-w-7xl mx-auto px-8 py-12">
-        {/* Hero Section - 添加边框 */}
+        {/* Hero Section */}
         <div className="flex gap-12  p-8 ">
           {/* Left - AI Image */}
           <div className="w-[500px] ml-[-40px]">
@@ -137,9 +98,9 @@ const ResultPage = () => {
           {/* Right - Description */}
           <div className="w-3/5 flex flex-col justify-center pl-8">
             <div className="absolute left-[612px] top-[164px]">
-              <div className="w-[750px] h-[2px] bg-cyan-700" /> {/* 横线 */}
+              <div className="w-[750px] h-[2px] bg-cyan-700" /> 
               <div className="w-[2px] h-[320px] bg-cyan-700 ml-[750px]" />{" "}
-              {/* 竖线 */}
+             
             </div>
 
             <h2 className="text-5xl font-bold text-gray-900 mb-6 leading-tight">
@@ -157,7 +118,7 @@ const ResultPage = () => {
           </div>
         </div>
 
-        {/* Title with decorative lines - 修正线条样式 */}
+        {/* Title with decorative lines  */}
         <div className="flex items-center justify-center mb-12">
           <div className="flex-1 h-px bg-black"></div>
           <div className="px-6">
@@ -179,7 +140,7 @@ const ResultPage = () => {
               key={index}
               className="relative bg-white rounded-2xl border-2 border-cyan-700 p-8 hover:shadow-xl transition-all duration-300 hover:border-blue-300"
             >
-              {/* Corner Rank Badge - 使用传入的颜色 */}
+              {/* Corner Rank Badge  */}
               <CornerBadge
                 number={index + 1}
                 color={
@@ -190,10 +151,11 @@ const ResultPage = () => {
               {/* Agent Avatar */}
               <div className="flex justify-center mb-6 mt-4">
                 <img
-                  src="/people image.png"
-                  alt={agent.funame}
-                  className="w-24 h-24 rounded-full object-cover border-4 border-gray-200 shadow-md"
-                />
+                src={`https://randomuser.me/api/portraits/men/${index}.jpg`}
+                alt={`${agent.funame} avatar`}
+                className="w-24 h-24 object-cover rounded-full mx-auto mb-4"
+              />
+
               </div>
 
               {/* Agent Info */}
@@ -218,7 +180,7 @@ const ResultPage = () => {
                 <p>5. Experience years: {agent.experienceYears}</p>
               </div>
 
-              {/* Get Contact Button - 更深的蓝灰色 */}
+              {/* Get Contact Button  */}
               <button
                 onClick={() => window.open(`/contact/${agent.marn}`, "_blank")}
                 className="w-full bg-cyan-800 hover:bg-slate-800 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
@@ -246,14 +208,8 @@ const ResultPage = () => {
         </div>
       </main>
 
-      {/* Footer - 与导航栏相同的颜色 */}
-      <footer className="bg-cyan-950 text-white px-8 py-6 mt-auto border-t-2 border-slate-700">
-        <div className="max-w-7xl mx-auto">
-          <p className="text-sm text-gray-400">
-            © 2024 AI-based Recommendation System. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      {/* Footer */}
+      <Footerbar></Footerbar>
     </div>
   );
 };
