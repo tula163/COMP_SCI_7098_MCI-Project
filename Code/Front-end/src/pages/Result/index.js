@@ -78,12 +78,27 @@ const ResultPage = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
       {/* Header - 导航栏颜色为蓝灰色 */}
-      <header className="bg-cyan-950 text-white px-8 py-6 shadow-lg border-b-2 border-slate-700">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-cyan-300">
+      <header
+        className="bg-[#002534] text-white px-8 shadow-lg"
+        style={{ height: "100px" }}
+      >
+        {" "}
+        <div
+          className="w-full flex justify-between items-center"
+          style={{ height: "100px", paddingLeft: "48px", paddingRight: "48px" }}
+        >
+          {" "}
+          <h1
+            className="font-bold text-[#8FE9FF]"
+            style={{ fontFamily: "Newsreader, serif", fontSize: "30px" }}
+          >
             AI-based Recommendation System
-          </h1>
-          <nav className="flex space-x-12 text-lg">
+          </h1>{" "}
+          <nav
+            className="flex space-x-10 text-[20px]"
+            style={{ fontFamily: "Inter, sans-serif", fontWeight: 500 }}
+          >
+            {" "}
             <a
               href="/view_agents"
               className="text-gray-200 hover:text-white transition-colors font-medium"
