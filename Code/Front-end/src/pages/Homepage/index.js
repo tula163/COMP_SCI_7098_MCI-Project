@@ -5,9 +5,50 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 
+import homeBanner from "@/assets/home page banner.png";
+import peopleImage from "@/assets/people image.png";
+
 import Navbar from "@/components/Navbar";
 import Footerbar from "@/components/Footerbar"
 
+const mockData = [
+  {
+    marn: "1800328",
+    funame: "Kumar Rahul",
+    avatar: peopleImage,
+    location: "SA",
+    googleRating: 4.9,
+    successRate: "over 81%",
+    availability: "4 to 6 months"
+  },
+  {
+    marn: "1799100",
+    funame: "Ramandeep Kaur",
+    avatar: peopleImage,
+    location: "QLD",
+    googleRating: 2.9,
+    successRate: "below 30%",
+    availability: "4 to 6 months"
+  },
+  {
+    marn: "1799035",
+    funame: "Jaspreet Kaur",
+    avatar: peopleImage,
+    location: "VIC",
+    googleRating: 4.1,
+    successRate: "over 81%",
+    availability: "2 to 3 months"
+  },
+  {
+    marn: "2318090",
+    funame: "Balwant Kaur",
+    avatar: peopleImage,
+    location: "VIC",
+    googleRating: 3.1,
+    successRate: "31% to 50%",
+    availability: "4 to 6 months"
+  }
+];
 
 export default function Homepage() {
     const navigate = useNavigate();
@@ -16,21 +57,89 @@ export default function Homepage() {
       {/* Header */}
 
       <Navbar></Navbar>
-      {/* Main Content */}
-      <main className="flex-grow flex flex-col justify-center items-center px-4">
- 
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-center text-gray-900 mb-4">
-        Find the Right Migration Agent with AI
-        </h1>
-        <p className="text-center text-gray-600 max-w-xl mb-6">
-        Our AI-powered recommendation system analyzes your needs and matches you with the most suitable, trustworthy agents — instantly and intelligently.
-        </p>
-        <div className="flex gap-4">
-          <button className="px-5 py-2 bg-indigo-600 text-white rounded shadow hover:bg-indigo-500" onClick={() => navigate("/question")}>Get Your Match</button>
-          {/* <Button onClick={() => router.push("/question")}>
-      Get Your Match
-    </Button> */}
-          <button className="px-5 py-2 text-gray-700 hover:text-black">Learn more →</button>
+      {/* Hero Section */}
+      <main className="flex-1 max-w-7xl mx-auto px-8 py-12">
+        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8">
+          {/* Left Image */}
+          <div className="w-full lg:w-3/6">
+            <img
+              src={homeBanner}
+              alt="World map wordcloud"
+              className="w-full h-80 object-cover rounded-xl shadow-lg"
+            />
+          </div>
+
+          {/* Right Panel */}
+          <div className="w-full lg:w-4/5 relative z-10 lg:-ml-20 lg:mt-0 flex flex-col justify-center items-center text-center p-6 bg-white rounded-xl shadow-lg">
+            {/* Decorative Lines */}
+            <div className="absolute top-4 left-4">
+              <div className="w-20 h-1 bg-cyan-700 mb-2" />
+              <div className="w-1 h-32 bg-cyan-700" />
+            </div>
+
+            {/* Text Content */}
+            <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4 whitespace-nowrap">
+              Find Migration Agents with AI
+            </h1>
+            <p className="text-gray-600 text-lg mb-2">
+              Simple questions, easy choices, quick matches
+            </p>
+            <p className="text-gray-600 text-lg mb-6">
+              Over 4000 agents for you
+            </p>
+            <button
+              onClick={() => navigate('/question')}
+              className="inline-block bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 px-8 rounded-lg transition duration-200 shadow-md"
+            >
+              Get Your Match
+            </button>
+          </div>
+        </div>
+
+        {/* Search and View More */}
+        <div className="mt-12 flex justify-center items-center gap-4">
+          <div className="relative w-full max-w-lg">
+            <input
+              type="text"
+              placeholder="Search agents by their name or MARN"
+              className="w-full border border-gray-300 rounded-full py-3 px-6 pr-12 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+            <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+              🔍
+            </span>
+          </div>
+          <button
+            onClick={() => navigate('/view')}
+            className="bg-cyan-800 hover:bg-cyan-700 text-white font-semibold py-3 px-6 rounded-full transition duration-200 shadow-md"
+          >
+            Find more agents
+          </button>
+        </div>
+        {/* Agent Cards Grid */}
+        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {mockData.map((agent) => (
+            <div key={agent.marn} className="bg-white rounded-2xl border-2 border-cyan-700 p-6 text-center shadow hover:shadow-md">
+              <img
+                src={agent.avatar}
+                alt={`${agent.funame} avatar`}
+                className="mx-auto w-24 h-24 rounded-full mb-4 object-cover"
+              />
+              <h3 className="text-xl font-semibold mb-1">{agent.funame}</h3>
+              <p className="text-gray-600 mb-4">MARN: {agent.marn}</p>
+              <ul className="text-left text-gray-700 text-sm space-y-1 mb-6">
+                <li>1. Location: {agent.location}</li>
+                <li>2. Google rating: {agent.googleRating}</li>
+                <li>3. Success rate: {agent.successRate}</li>
+                <li>4. Availability: {agent.availability}</li>
+              </ul>
+              <button
+                onClick={() => navigate(`/contact/${agent.marn}`)}
+                className="bg-cyan-800 hover:bg-cyan-700 text-white font-semibold py-2 px-4 rounded-lg"
+              >
+                Get contact
+              </button>
+            </div>
+          ))}
         </div>
       </main>
 
