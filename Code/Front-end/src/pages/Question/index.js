@@ -281,6 +281,7 @@ export default function QuestionPage() {
     sx={{ fontWeight: 700 }}
     type="submit"
     onClick={handleSubmit}
+    disabled={answeredCount === 0}
   >
     Submit
   </Button>
