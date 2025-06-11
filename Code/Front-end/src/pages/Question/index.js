@@ -119,19 +119,26 @@ export default function QuestionPage() {
   return (
     <>
          <Navbar></Navbar>
-         <Container maxWidth="lg">
+        <main className="bg-gradient-to-b from-[#dde9ee] via-[#f4f7fa] to-[#e2f3ee]">
+
+
+         <Container maxWidth="lg" className="">
  
 
     <div className="px-8 py-10  h-full font-sans text-base">
-    
-      <div className="bg-white border border-gray-300 rounded-md overflow-hidden mb-6">
-        <div className="grid grid-cols-1 md:grid-cols-3">
-          <img
-            src={banner}
-            alt="banner"
-            className="w-full h-full object-cover max-h-[200px] md:max-h-full md:rounded-l-md"
-          />
-          <div className="md:col-span-2 p-6 flex flex-col justify-center leading-relaxed text-gray-800 text-lg">
+
+<div className="flex flex-col lg:flex-row items-center lg:items-stretch gap-0 min-h-[280px] mb-4">
+
+<div className="w-full lg:w-3/6 flex">
+  <img
+    src={banner}
+    alt="World map wordcloud"
+    className="w-full h-full object-cover shadow-lg rounded-l-xl"
+    style={{ minHeight: "280px" }}
+  />
+</div>
+
+<div className="md:col-span-2 p-6 flex flex-col bg-white  justify-center leading-relaxed text-gray-800 text-lg rounded-r-xl ">
             <h2 className="text-[#004c5a] text-2xl font-bold mb-3">
               How to get your ideal agents?
             </h2>
@@ -144,8 +151,9 @@ export default function QuestionPage() {
               Tip: Click “Expand/Collapse” to view or hide all questions.
             </p>
           </div>
-        </div>
-      </div>
+</div>
+
+
 
       <div className="flex justify-between items-center mb-6">
         <div className="text-[#004c5a] font-semibold text-lg">Start to get your matches</div>
@@ -156,6 +164,8 @@ export default function QuestionPage() {
           {isAllCollapsed ? "Expand All" : "Collapse All"}
         </button>
       </div>
+
+
 
       <p className="mb-4 text-base text-gray-700">There are 10 questions in total.</p>
 
@@ -288,6 +298,7 @@ export default function QuestionPage() {
 </Box>
     </div>
     </Container>
+    </main>
     </>
   );
 }

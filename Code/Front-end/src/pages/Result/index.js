@@ -108,11 +108,7 @@ const ResultPage = () => {
 
           {/* Right - Description */}
           <div className="w-3/5 flex flex-col justify-center pl-8">
-            <div className="absolute left-[612px] top-[164px]">
-              <div className="w-[750px] h-[2px] bg-cyan-700" /> 
-              <div className="w-[2px] h-[320px] bg-cyan-700 ml-[750px]" />{" "}
-             
-            </div>
+    
 
             <h2 className="text-5xl font-bold text-gray-900 mb-6 leading-tight">
               Your recommended agents have been generated

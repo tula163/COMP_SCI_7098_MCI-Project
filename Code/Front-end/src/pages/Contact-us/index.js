@@ -36,10 +36,10 @@ const teamMembers = [
 const ContactUs = () => {
   return (
     
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#dde9ee] via-[#f4f7fa] to-[#e2f3ee]">
       {/* Header */}
       <Navbar></Navbar>
-     <Container maxWidth="lg" className='mb-6'>
+     <Container maxWidth="lg" className='h-full mb-6' >
      
         {/* Banner Section */}
         <section className="w-full bg-[#FFFFFF] flex justify-center mb-6">

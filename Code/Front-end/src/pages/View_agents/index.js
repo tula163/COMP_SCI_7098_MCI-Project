@@ -4,7 +4,7 @@ import filterIcon from "@/assets/filter icon.png";
 import { getAgentsWithPage } from "@/api/requireApi";
 import { useSnackbarQueue } from "@/store/useSnackbarQueue";
 import PaginationBar from "./PaginationBar";
-import { Box, Typography ,CircularProgress} from "@mui/material";
+import { Box, Typography ,CircularProgress,Container} from "@mui/material";
 import Navbar from "@/components/Navbar";
 
 const locations =["NSW","VIC","QLD","SA","WA","TAS","ACT","NT"]
@@ -111,17 +111,18 @@ export default function ViewAgents() {
   return (
     <>
     <Navbar></Navbar>
-    <div className="px-8 py-6 bg-[#f5f6f7] min-h-screen font-sans">
+    <div className="px-8 py-6 bg-gradient-to-b from-[#e6edf3] via-[#f7f8fa] to-[#f7e7ed] min-h-screen font-sans">
       
       {/* search */}
-      <div className="flex flex-wrap gap-4 mb-10 items-center">
+
+      <div className="flex flex-wrap gap-4 mb-10 items-center  max-w-7xl  mx-auto ">
         <div className="w-[40%] relative">
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search agents by their name or MARN"
-            className="w-full pl-4 pr-10 py-2 border border-gray-400 rounded-md text-sm focus:outline-none"
+            className="w-full pl-4 pr-10 py-4 border border-gray-400 rounded-md text-sm focus:outline-none"
           />
           <img
             src={searchIcon}
@@ -131,7 +132,7 @@ export default function ViewAgents() {
         </div>
         <button
           onClick={handleSearch}
-          className="w-[10%] bg-[#004c5a] text-white font-semibold py-2 text-sm rounded-md hover:bg-[#003d4a]"
+          className="w-[10%] bg-[#004c5a] text-white font-semibold py-4 text-sm rounded-md hover:bg-[#003d4a]"
         >
           Search
         </button>
@@ -140,7 +141,7 @@ export default function ViewAgents() {
         <div className="relative w-[23%]">
           <button
             onClick={() => setShowLocationMenu((prev) => !prev)}
-            className="w-full flex justify-between items-center border border-gray-400 bg-white py-2 px-4 text-sm rounded-md hover:bg-gray-100"
+            className="w-full flex justify-between items-center border border-gray-400 bg-white py-4 px-4 text-sm rounded-md hover:bg-gray-100"
           >
             <span>{locationFilter || "Filter by location"}</span>
             <img src={filterIcon} alt="filter" className="w-4 h-4" />
@@ -164,7 +165,7 @@ export default function ViewAgents() {
                   setLocationFilter("");
                   setShowLocationMenu(false);
                 }}
-                className="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer"
+                className="px-4 py-4 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer"
               >
                 Clear filter
               </div>
@@ -176,7 +177,7 @@ export default function ViewAgents() {
         <div className="relative w-[23%]">
           <button
             onClick={() => setShowAvailabilityMenu((prev) => !prev)}
-            className="w-full flex justify-between items-center border border-gray-400 bg-white py-2 px-4 text-sm rounded-md hover:bg-gray-100"
+            className="w-full flex justify-between items-center border border-gray-400 bg-white py-4 px-4 text-sm rounded-md hover:bg-gray-100"
           >
             <span>{availabilityFilter || "Filter by availability"}</span>
             <img src={filterIcon} alt="filter" className="w-4 h-4" />
@@ -210,17 +211,18 @@ export default function ViewAgents() {
       </div>
 
       {/* main */}
+      <div className="flex-1 max-w-7xl mx-auto px-8 ">
       {loading ? (
   <Box className="w-full h-[calc(100vh-200px)] flex items-center justify-center">
     <CircularProgress />
   </Box>
 ) : (
-      <div className="grid  grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid  grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {agentData.results.length > 0 ? (
           agentData.results.map((agent) => (
             <div
               key={agent.id}
-              className="border-2 border-blue-500 rounded-lg bg-white p-6 shadow-sm hover:shadow-md transition w-full max-w-[300px] mx-auto"
+              className="border-2 border-cyan-700  rounded-lg bg-white p-6 shadow-sm hover:shadow-md transition w-full max-w-[300px] mx-auto"
             >
               <img
                 src={`https://randomuser.me/api/portraits/men/${hashMarn(agent.marn)}.jpg`}
@@ -264,7 +266,7 @@ export default function ViewAgents() {
       </div>  
 
 )}
-  
+  </div>
       {agentData.total > 0 && (
         <PaginationBar
           total={agentData.total}

@@ -43,48 +43,47 @@ export default function Homepage() {
   
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-purple-100 via-white to-pink-100">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#e6edf3] via-[#f7f8fa] to-[#f7e7ed]">
       {/* Header */}
 
       <Navbar></Navbar>
-      {/* Hero Section */}
+      {/* main Section */}
       <main className="flex-1 max-w-7xl mx-auto px-8 py-12">
-        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8">
-          {/* Left Image */}
-          <div className="w-full lg:w-3/6">
-            <img
-              src={homeBanner}
-              alt="World map wordcloud"
-              className="w-full h-80 object-cover rounded-xl shadow-lg"
-            />
-          </div>
+      <div className="flex flex-col lg:flex-row items-center lg:items-stretch gap-8">
 
-          {/* Right Panel */}
-          <div className="w-full lg:w-4/5 relative z-10 lg:-ml-20 lg:mt-0 flex flex-col justify-center items-center text-center p-6 bg-white rounded-xl shadow-lg">
-            {/* Decorative Lines */}
-            <div className="absolute top-4 left-4">
-              <div className="w-20 h-1 bg-cyan-700 mb-2" />
-              <div className="w-1 h-32 bg-cyan-700" />
-            </div>
+  <div className="flex flex-col lg:flex-row items-center lg:items-stretch gap-0 min-h-[280px]">
 
-            {/* Text Content */}
-            <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4 whitespace-nowrap">
-              Find Migration Agents with AI
-            </h1>
-            <p className="text-gray-600 text-lg mb-2">
-              Simple questions, easy choices, quick matches
-            </p>
-            <p className="text-gray-600 text-lg mb-6">
-              Over 4000 agents for you
-            </p>
-            <button
-              onClick={() => navigate('/question')}
-              className="inline-block bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 px-8 rounded-lg transition duration-200 shadow-md"
-            >
-              Get Your Match
-            </button>
-          </div>
-        </div>
+  <div className="w-full lg:w-3/6 flex">
+    <img
+      src={homeBanner}
+      alt="World map wordcloud"
+      className="w-full h-full object-cover shadow-lg rounded-l-xl"
+      style={{ minHeight: "280px" }}
+    />
+  </div>
+
+  <div className="w-full lg:w-4/5 flex flex-col justify-center items-center text-center p-6 bg-white rounded-r-xl shadow-lg min-h-[280px]">
+    <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4 whitespace-nowrap">
+      Find Migration Agents with AI
+    </h1>
+    <p className="text-gray-600 text-lg mb-2">
+      Simple questions, easy choices, quick matches
+    </p>
+    <p className="text-gray-600 text-lg mb-6">
+      Over 4000 agents for you
+    </p>
+    <button
+      onClick={() => navigate('/question')}
+      className="inline-block bg-cyan-800 hover:bg-cyan-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-200 shadow-md"
+    >
+      Get Your Match
+    </button>
+  </div>
+</div>
+
+</div>
+
+
 
         {/* Search and View More */}
         <div className="mt-12 flex justify-center items-center gap-4">

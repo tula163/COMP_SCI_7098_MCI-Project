@@ -31,21 +31,14 @@ feature_weights = {
 }
 
 def get_dynamic_weights(user_input: dict) -> dict:
-    """
-    动态加权方案：
-    - 全部填写：直接用默认权重
-    - 填了N(<10)个字段：填写字段权重为 默认权重*(1+1/N)，其它为0，然后归一化
-    - 都没填：全0
-    """
-    # 保证 key 小写（防止大小写不一致导致匹配不上）
+
     norm_input = {k.lower(): v for k, v in user_input.items()}
     filled_fields = [f for f in FEATURES if norm_input.get(f) not in [None, ""]]
     N = len(filled_fields)
 
-    # 全填：直接返回默认权重
     if N == len(FEATURES):
         return feature_weights.copy()
-    # 部分填
+
     elif N > 0:
         weights = {}
         for f in FEATURES:
@@ -53,18 +46,17 @@ def get_dynamic_weights(user_input: dict) -> dict:
                 weights[f] = feature_weights[f] * (1 + 1.0 / N)
             else:
                 weights[f] = 0.0
-        # 归一化（和为1）
+   
         total = sum(weights.values())
         if total > 0:
             weights = {k: v / total for k, v in weights.items()}
         return weights
-    # 全没填
+
     else:
         return {f: 0.0 for f in FEATURES}
 
 
 def preprocess_user_input(input_dict: dict, weights: dict):
-    # key 全部小写，兼容前端传参不同写法
     norm_input = {k.lower(): v for k, v in input_dict.items()}
     feature_vector = []
     for field in FEATURES:
@@ -75,7 +67,6 @@ def preprocess_user_input(input_dict: dict, weights: dict):
         elif isinstance(value, (int, float)):
             raw_value = float(value)
         else:
-            # 类别型用 hash
             raw_value = float(abs(hash(value)) % 1000) / 1000.0
         weighted_value = raw_value * weights[field]
         feature_vector.append(weighted_value)
