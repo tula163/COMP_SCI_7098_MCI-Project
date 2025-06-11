@@ -189,11 +189,15 @@ const ResultPage = () => {
 
               {/* Get Contact Button  */}
               <button
-                onClick={() =>
-                  agent.website
-                    ? window.open(agent.website, "_blank")
-                    : showMessage({ type: "error", message: "This agent does not have a website." })
-                }
+                onClick={() => {
+                  let url = agent.website;
+                  if (url && !url.startsWith("http")) {
+                    url = "https://" + url;
+                  }
+                  url
+                    ? window.open(url, "_blank")
+                    : showMessage({ type: "error", message: "This agent does not have a website." });
+                }}
                 className="w-full bg-[#004c5a] text-white font-medium text-sm py-2.5 rounded-md hover:bg-[#003d4a] transition"
               >
                 Get contact

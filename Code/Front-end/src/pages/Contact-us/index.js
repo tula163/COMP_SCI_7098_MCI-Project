@@ -109,7 +109,7 @@ const ContactUs = () => {
   <Box sx={{ width: "8px", height: "32px", bgcolor: "#004c5a", borderRadius: "4px", mr: 2 }} />
   <Typography
     sx={{
-      fontSize: "32px",
+      fontSize: "22px",
       fontWeight: 800,
       fontFamily: "Inter, sans-serif",
       color: "#004c5a",
@@ -137,18 +137,17 @@ const ContactUs = () => {
       sx={{
         width: { xs: "100%", md: "calc(50% - 24px)" },
         minWidth: 300,
-        height: "160px",
         display: "flex",
         alignItems: "center",
         backgroundColor: "#FFFFFF",
-        borderRadius: "16px",
+        borderRadius: "8px",
         boxShadow: "0px 2px 12px rgba(0,0,0,0.10)",
-        padding: "24px",
+        padding: "12px",
         transition: "box-shadow 0.2s",
         ":hover": { boxShadow: "0px 6px 24px rgba(0,0,0,0.12)" }
       }}
     >
-      <Box sx={{ width: "96px", height: "96px", flexShrink: 0 }}>
+      <Box sx={{ width: "66px", height: "66px", flexShrink: 0 }}>
         <img
           src={`https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=004c5a&color=fff`}
           alt={`${member.name} avatar`}
@@ -163,7 +162,7 @@ const ContactUs = () => {
       <Box sx={{ flex: 1, marginLeft: "32px" }}>
         <Typography
           sx={{
-            fontSize: "24px",
+            fontSize: "18px",
             fontWeight: 700,
             fontFamily: "Inter, sans-serif",
             color: "#002534",
@@ -174,7 +173,7 @@ const ContactUs = () => {
         </Typography>
         <Typography
           sx={{
-            fontSize: "18px",
+            fontSize: "16px",
             fontFamily: "Inter, sans-serif",
             color: "#555",
             mb: "2px",
@@ -184,7 +183,7 @@ const ContactUs = () => {
         </Typography>
         <Typography
           sx={{
-            fontSize: "18px",
+            fontSize: "16px",
             fontFamily: "Inter, sans-serif",
             color: "#7c8b95",
           }}
