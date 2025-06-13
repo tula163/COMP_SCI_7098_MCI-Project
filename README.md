@@ -61,20 +61,14 @@ a1882117 `Jianing Dang`
 ### Backend start
    ```bash
    cd Code/Back
-   #  active virtural environment
+   #  active virtural environment for Mac (Choose one of the two)
    source venv/bin/activate
+   #  active virtural environment for Windows(Choose one of the two)
+   source venv/Scripts/activate
    # start server
    python manage.py runserver
    ```
 
-
-
-## 3. Quick start(make sure you have install all dependency and creat virtural environment before)
-
-   ```bash
-   cd Code
-   bash ./start
-   ```
    
 # Document organizaton
    ```bash
