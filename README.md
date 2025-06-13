@@ -67,14 +67,6 @@ a1882117 `Jianing Dang`
    python manage.py runserver
    ```
 
-
-
-## 3. Quick start(make sure you have install all dependency and creat virtural environment before)
-
-   ```bash
-   cd Code
-   bash ./start
-   ```
    
 # Document organizaton
    ```bash
