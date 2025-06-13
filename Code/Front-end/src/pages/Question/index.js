@@ -39,48 +39,57 @@ export default function QuestionPage() {
     setIsAllCollapsed(next);
   };
 
+
+
   const questions = [
     {
       id: 1,
       title: "Agents’ working Experience years",
       question: "How many years of experience would you prefer an agent with?",
       options: ["0 ~ 10 years", "11 ~ 20 years", "21 ~ 30 years", "More than 30 years"],
+      key:"experience_years"
     },
     {
       id: 2,
       title: "Agents’ fees",
       question: "How much do you prefer to spend on immigration agent fees?",
       options: ["0 ~ 100 AUD", "101 ~ 200 AUD", "201 ~ 500 AUD", "More than 500 AUD"],
+      key:"charge"
     },
     {
       id: 3,
       title: "Booking preference",
       question: "Which of the following ways do you prefer to communicate with agent ?",
       options: ["Online", "In person", "Both of them"],
+      key:"booking_preference"
     },
     {
       id: 4,
       title: "The employment type of agents",
       question: "Which of the employment type of agents do you prefer ?",
       options: ["Independent", "Organized"],
+      key:"employment_type"
     },
     {
       id: 5,
       title: "Success rate",
       question: "The following is the success rate of agent assisted visa application, which one do you prefer?",
       options: ["Less than 30%", "31% ~ 50%", "51% ~ 80%", "More than 80%"],
+      key:"success_rate"
     },
     {
       id: 6,
       title: "The available time of the age",
       question: "How long do you prefer to be responded to and processed by the agent?",
       options: ["Immediately", "1 month", "2 ~ 3 month", "4 ~ 6 month"],
+      key:"availability"
     },
     {
       id: 7,
       title: "Google rating",
       question: "The following is the Google rate of agent got, which one do you prefer?",
       options: ["Less than 3.0", "3.0 ~ 3.5", "3.6 ~ 3.9", "4.0 ~ 4.5", "4.6 ~ 5.0"],
+      key:"google_rating"
     },
     {
       id: 8,
@@ -96,6 +105,7 @@ export default function QuestionPage() {
         "South Australia (SA)",
         "Queensland (QLD)",
       ],
+      key:"location"
     },
   ];
 
@@ -191,10 +201,10 @@ export default function QuestionPage() {
                       onChange={() =>
                         setAnswers((prev) => ({
                           ...prev,
-                          [q.id]: option,
+                          [q.key]: option,
                         }))
                       }
-                      checked={answers[q.id] === option}
+                      checked={answers[q.key] === option}
                     />
                     <span className="text-gray-800">{option}</span>
                   </label>
