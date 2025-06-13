@@ -17,7 +17,8 @@ from rest_framework import status, generics
 from rest_framework import filters
 from .filters import AgentFilter
 from django.db.models import Q
-
+from django.core.cache import cache
+import json
 
 
 def home(request):
@@ -90,17 +91,22 @@ class AgentAIRecommendView(APIView):
             if not any(user_input.values()):
                 return error("At least one field must be filled in to make a recommendation", code=400)
 
-            result = predict_agent(user_input)
+            cache_key = f"recommend:{hash(json.dumps(user_input, sort_keys=True))}"
 
-            # Save it in the recommendation record form
+            cached_result = cache.get(cache_key)
+            if cached_result:
+                result = json.loads(cached_result)
+            else:
+                result = predict_agent(user_input)
+                cache.set(cache_key, json.dumps(result), timeout=600)
+
             RecommendationRecord.objects.create(
                 input_data=user_input,
                 result=result
             )
-
-            # Successfully unified the return structure
             return success(result)
 
         except Exception as e:
-            return error(f"Server anomaly：{str(e)}", code=500)
+            return error(f"Server anomaly: {str(e)}", code=500)
+
 

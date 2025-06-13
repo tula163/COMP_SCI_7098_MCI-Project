@@ -8,6 +8,7 @@ Django==5.2.2
 django-cors-headers==4.7.0
 django-filter==25.1
 django-import-export==4.3.7
+django-redis==5.4.0
 django-simpleui==2025.5.262
 djangorestframework==3.16.0
 flatbuffers==25.2.10
@@ -31,6 +32,7 @@ optree==0.16.0
 packaging==25.0
 protobuf==4.25.8
 Pygments==2.19.1
+redis==6.2.0
 requests==2.32.3
 rich==14.0.0
 scikit-learn==1.6.1
